@@ -26,6 +26,7 @@
         "./src/*"
       ]
     },
+    "types": ["@uploadcare/blocks/types/jsx"],
     "target": "ES2017"
   },
   "include": [
