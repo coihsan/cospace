@@ -2,6 +2,8 @@
 import React, { useEffect, useRef } from 'react'
 import * as LR from '@uploadcare/blocks'
 import { useRouter } from 'next/navigation'
+import { FileUploaderRegular } from '@uploadcare/react-uploader';
+import '@uploadcare/react-uploader/core.css';
 
 type Props = {
   onUpload: (e: string) => any
@@ -27,20 +29,7 @@ const UploadCareButton = ({ onUpload }: Props) => {
 
   return (
     <div>
-      <lr-config
-        ctx-name="cospace"
-        pubkey="8c7cc9708b8fdcfc8980"
-      />
-
-      <lr-file-uploader-regular
-        ctx-name="cospace"
-        css-src={`https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css`}
-      />
-
-      <lr-upload-ctx-provider
-        ctx-name="cospace"
-        ref={ctxProviderRef}
-      />
+      <FileUploaderRegular pubkey="8c7cc9708b8fdcfc8980" />
     </div>
   )
 }

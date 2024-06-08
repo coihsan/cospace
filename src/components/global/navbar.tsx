@@ -4,7 +4,7 @@ import React from 'react'
 import { MenuIcon } from 'lucide-react'
 import { UserButton } from '@clerk/nextjs'
 import { currentUser } from '@clerk/nextjs/server'
-
+import {ModeToggle} from '@/components/global/mode-toggle'
 type Props = {}
 
 const Navbar = async (props: Props) => {
@@ -44,6 +44,7 @@ const Navbar = async (props: Props) => {
         </Link>
         {user ? <UserButton afterSignOutUrl='/' /> : null}
         <MenuIcon className="md:hidden" />
+        <ModeToggle />
       </aside>
     </header>
   )
