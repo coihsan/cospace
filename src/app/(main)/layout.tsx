@@ -4,7 +4,7 @@ import SidebarOptions from '@/components/sidebar'
 type Props = {
     children: React.ReactNode
 }
-const Layout = ({children}: Props) => {
+const MainLayout = ({children}: Props) => {
     return (
         <div className='flex overflow-hidden h-screen'>
             <SidebarOptions />
@@ -18,4 +18,4 @@ const Layout = ({children}: Props) => {
     )
 }
 
-export default Layout
+export default MainLayout
