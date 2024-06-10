@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -28,8 +28,8 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(EditUserProfileSchema),
     defaultValues: {
-      name: user.name,
-      email: user.email,
+      name: user?.name,
+      email: user?.email,
     },
   })
 
@@ -57,7 +57,7 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">User full name</FormLabel>
+              <FormLabel className="text-lg">Full name</FormLabel>
               <FormControl>
                 <Input
                   {...field}

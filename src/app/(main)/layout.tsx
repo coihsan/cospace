@@ -1,6 +1,6 @@
+import React from 'react'
 import InfoBar from '@/components/infobar'
 import SidebarOptions from '@/components/sidebar'
-import React from 'react'
 type Props = {
     children: React.ReactNode
 }
