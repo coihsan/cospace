@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+/ngrok.yml
 
 # testing
 /coverage

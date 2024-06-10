@@ -3,8 +3,7 @@ import React from 'react'
 import ProfilePicture from './_components/profile-picture';
 import { db } from '@/lib/db';
 import { currentUser } from '@clerk/nextjs/server';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+
 type Props = {}
 
 const Settings = async (props : Props) =>{
@@ -74,7 +73,6 @@ const Settings = async (props : Props) =>{
               userImage={user?.profileImage || ''}
               onUpload={uploadProfileImage}
             />
-            <FileUploaderRegular pubkey="8c7cc9708b8fdcfc8980" />
             <ProfileForm
               user={user}
               onUpdate={updateUserInfo}

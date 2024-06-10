@@ -6,15 +6,15 @@ type Props = {
 }
 const MainLayout = ({children}: Props) => {
     return (
-        <div className='flex overflow-hidden h-screen'>
+        <main className='flex overflow-hidden h-screen'>
             <SidebarOptions />
-            <div className='w-full'>
+            <section className='w-full'>
                 <InfoBar />
-                <main className='rounded-l-3xl'>
+                <div className='rounded-l-3xl'>
                     {children}
-                </main>
-            </div>
-        </div>
+                </div>
+            </section>
+        </main>
     )
 }
 
