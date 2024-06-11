@@ -46,18 +46,6 @@ export default function Home() {
         </ContainerScroll>
         </div>
       </section>
-      <InfiniteMovingCards
-        className="md:mt-[18rem] mt-[-100px]"
-        items={clients}
-        direction="right"
-        speed="slow"
-      />
-      <section>
-        <HeroParallax products={products}></HeroParallax>
-      </section>
-      <section className="mt-[-500px]">
-        <LampComponent />
-      </section>
     </main>
   );
 }
