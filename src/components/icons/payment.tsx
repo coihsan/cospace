@@ -2,48 +2,12 @@ import clsx from 'clsx'
 import React from 'react'
 
 type Props = {
-  selected: boolean
+  selected?: boolean
 }
 
 const Payment = ({ selected }: Props) => {
   return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="2"
-        y="4"
-        width="20"
-        height="16"
-        rx="3"
-        className={clsx(
-          'dark:group-hover:fill-[#C8C7FF] transition-all dark:fill-[#353346] fill-[#BABABB] group-hover:fill-[#7540A9]',
-          { 'dark:!fill-[#C8C7FF] fill-[#7540A9] ': selected }
-        )}
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M22 10H2V8H22V10Z"
-        className={clsx(
-          'dark:group-hover:fill-[#9F54FF] transition-all dark:fill-[#C0BFC4] fill-[#5B5966] group-hover:fill-[#BD8AFF] ',
-          { 'dark:!fill-[#7540A9] fill-[#BD8AFF] ': selected }
-        )}
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M4 15C4 14.4477 4.44772 14 5 14H11C11.5523 14 12 14.4477 12 15C12 15.5523 11.5523 16 11 16H5C4.44772 16 4 15.5523 4 15Z"
-        className={clsx(
-          'dark:group-hover:fill-[#9F54FF] transition-all dark:fill-[#C0BFC4] fill-[#5B5966] group-hover:fill-[#BD8AFF] ',
-          { 'dark:!fill-[#7540A9] fill-[#BD8AFF] ': selected }
-        )}
-      />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M15.75 14.5a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5zM2 8.25A3.25 3.25 0 0 1 5.25 5h13.5A3.25 3.25 0 0 1 22 8.25v7.5A3.25 3.25 0 0 1 18.75 19H5.25A3.25 3.25 0 0 1 2 15.75zM20.5 9.5V8.25a1.75 1.75 0 0 0-1.75-1.75H5.25A1.75 1.75 0 0 0 3.5 8.25V9.5zM3.5 11v4.75c0 .966.784 1.75 1.75 1.75h13.5a1.75 1.75 0 0 0 1.75-1.75V11z"/></svg>
   )
 }
 

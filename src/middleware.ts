@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server'
 const isPublicRoute = createRouteMatcher(
   [
     '/',
+    '/sign-in',
+    '/sign-up',
     '/api/clerk-webhook',
     '/api/drive-activity/notification',
     '/api/payment/success',
@@ -20,7 +22,9 @@ const isProtectedRoute = createRouteMatcher([
     '/api/cron/wait',
 ])
 export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) auth().protect();
+  if(!isPublicRoute(req)) {
+    auth().protect();
+  }
 });
 
 export const config = {

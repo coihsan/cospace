@@ -3,50 +3,7 @@ import React from 'react'
 
 const Logs = ({ selected }: { selected: boolean }) => {
   return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="3"
-        y="3"
-        width="18"
-        height="19"
-        rx="3"
-        className={clsx(
-          'dark:group-hover:fill-[#C8C7FF] transition-all dark:fill-[#353346] fill-[#BABABB] group-hover:fill-[#7540A9]',
-          { 'dark:!fill-[#C8C7FF] fill-[#7540A9] ': selected }
-        )}
-      />
-      <path
-        d="M14 3C14 1.89543 13.1046 1 12 1C10.8954 1 10 1.89543 10 3H8V5C8 5.55228 8.44772 6 9 6H15C15.5523 6 16 5.55228 16 5V3H14Z"
-        className={clsx(
-          'dark:group-hover:fill-[#9F54FF] transition-all dark:fill-[#C0BFC4] fill-[#5B5966] group-hover:fill-[#BD8AFF] ',
-          { 'dark:!fill-[#7540A9] fill-[#BD8AFF] ': selected }
-        )}
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M7 11C7 10.4477 7.44772 10 8 10L16 10C16.5523 10 17 10.4477 17 11C17 11.5523 16.5523 12 16 12L8 12C7.44772 12 7 11.5523 7 11Z"
-        className={clsx(
-          'dark:group-hover:fill-[#9F54FF] transition-all dark:fill-[#C0BFC4] fill-[#5B5966] group-hover:fill-[#BD8AFF] ',
-          { 'dark:!fill-[#7540A9] fill-[#BD8AFF] ': selected }
-        )}
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M7 15C7 14.4477 7.44772 14 8 14L12 14C12.5523 14 13 14.4477 13 15C13 15.5523 12.5523 16 12 16L8 16C7.44772 16 7 15.5523 7 15Z"
-        className={clsx(
-          'dark:group-hover:fill-[#C8C7FF] transition-all dark:fill-[#353346] fill-[#BABABB] group-hover:fill-[#7540A9]',
-          { 'dark:!fill-[#C8C7FF] fill-[#7540A9] ': selected }
-        )}
-      />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7 12.25a.75.75 0 1 1 1.5 0a.75.75 0 0 1-1.5 0m.75 2.25a.75.75 0 1 0 0 1.5a.75.75 0 0 0 0-1.5M7 18.25a.75.75 0 1 1 1.5 0a.75.75 0 0 1-1.5 0m3.75-6.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5zM10 15.25a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75m.75 2.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5zm8.664-9.086l-5.829-5.828l-.049-.04l-.036-.03a2 2 0 0 0-.219-.18a1 1 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a2 2 0 0 0-.624-.138q-.03-.002-.059-.007L12.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414M18.5 20a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-5-15.379L17.378 8.5H14a.5.5 0 0 1-.5-.5z"/></svg>
   )
 }
 

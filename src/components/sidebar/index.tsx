@@ -17,7 +17,7 @@ type Props = {}
 const SidebarOptions = () => {
     const pathName = usePathname()
   return (
-    <nav className="h-screen overflow-scroll justify-between flex items-center flex-col gap-10 py-6 px-2">
+    <nav className="h-screen overflow-scroll justify-between flex items-center flex-col gap-10 py-6 px-2 z-10">
       <div className="flex items-center justify-center flex-col gap-8">
         <Link
           className="flex font-bold flex-row "

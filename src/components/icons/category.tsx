@@ -5,58 +5,7 @@ type Props = { selected: boolean }
 
 function Category({ selected }: Props) {
   return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="3"
-        y="3"
-        width="8"
-        height="8"
-        rx="3"
-        className={clsx(
-          'dark:group-hover:fill-[#C8C7FF] transition-all dark:fill-[#353346] fill-[#BABABB] group-hover:fill-[#7540A9]',
-          { 'dark:!fill-[#C8C7FF] fill-[#7540A9] ': selected }
-        )}
-      />
-      <rect
-        x="3"
-        y="13"
-        width="8"
-        height="8"
-        rx="3"
-        className={clsx(
-          'dark:group-hover:fill-[#C8C7FF] transition-all dark:fill-[#353346] fill-[#BABABB] group-hover:fill-[#7540A9]',
-          { 'dark:!fill-[#C8C7FF] fill-[#7540A9] ': selected }
-        )}
-      />
-      <rect
-        x="13"
-        y="3"
-        width="8"
-        height="8"
-        rx="3"
-        className={clsx(
-          'dark:group-hover:fill-[#C8C7FF] transition-all dark:fill-[#353346] fill-[#BABABB] group-hover:fill-[#7540A9]',
-          { 'dark:!fill-[#C8C7FF] fill-[#7540A9] ': selected }
-        )}
-      />
-      <rect
-        x="13"
-        y="13"
-        width="8"
-        height="8"
-        rx="3"
-        className={clsx(
-          'dark:group-hover:fill-[#9F54FF] transition-all dark:fill-[#C0BFC4] fill-[#5B5966] group-hover:fill-[#BD8AFF] ',
-          { 'dark:!fill-[#7540A9] fill-[#BD8AFF] ': selected }
-        )}
-      />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.49 5.57a6 6 0 0 1-1.893 8.962c-.649.351-1.43.135-1.952-.386l-5.79-5.791c-.522-.522-.738-1.303-.388-1.952A6 6 0 0 1 18.43 4.51l2.29-2.29a.75.75 0 1 1 1.061 1.06zm-2.017 7.263a4.5 4.5 0 1 0-6.306-6.306c-.266.349-.186.833.125 1.143l5.038 5.038c.31.31.794.391 1.143.125M3.28 21.78l2.29-2.29a6 6 0 0 0 8.962-1.893c.351-.649.135-1.43-.387-1.952l-5.79-5.79c-.522-.522-1.303-.738-1.952-.388A6 6 0 0 0 4.51 18.43l-2.29 2.29a.75.75 0 1 0 1.06 1.061m4.39-10.488l5.038 5.038c.31.31.39.794.125 1.143a4.5 4.5 0 1 1-6.306-6.306c.349-.266.833-.186 1.143.125"/></svg>
   )
 }
 

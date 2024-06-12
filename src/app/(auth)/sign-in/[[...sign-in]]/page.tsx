@@ -13,11 +13,11 @@ export default function SignInPage() {
         >
           <header className="text-center">
             <Image
-              src="/logo.svg"
+              src="/fuzzieLogo.png"
               alt="Clover"
               width={228}
               height={128}
-              className="mx-auto"
+              className="mx-auto size-12 aspect-square"
             />
             <h1 className="mt-4 text-xl font-medium tracking-tight text-white">Sign in to Clover</h1>
           </header>
