@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from '@/lib/db'
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import axios from 'axios'
 
 export const onDiscordConnect = async (
@@ -13,9 +13,7 @@ export const onDiscordConnect = async (
   guild_name: string,
   guild_id: string
 ) => {
-  //check if webhook id params set
   if (webhook_id) {
-    //check if webhook exists in database with userid
     const webhook = await db.discordWebhook.findFirst({
       where: {
         userId: id,
@@ -29,9 +27,7 @@ export const onDiscordConnect = async (
       },
     })
 
-    //if webhook does not exist for this user
     if (!webhook) {
-      //create new webhook
       await db.discordWebhook.create({
         data: {
           userId: id,

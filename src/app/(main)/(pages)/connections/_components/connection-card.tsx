@@ -1,5 +1,5 @@
-import { ConnectionTypes } from '@/lib/types'
 import React from 'react'
+import { ConnectionTypes } from '@/lib/types'
 import {
   Card,
   CardDescription,
@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card'
 import Image from 'next/image'
 import Link from 'next/link'
-
+import { CircleCheck } from 'lucide-react'
 type Props = {
   type: ConnectionTypes
   icon: string
@@ -44,11 +44,13 @@ const ConnectionCard = ({
       </CardHeader>
       <div className="flex flex-col items-center gap-2 p-4">
         {connected[type] ? (
-          <div className="border-bg-primary rounded-lg border-2 px-3 py-2 font-bold text-white">
-            Connected
+          <div className="flex items-center gap-2 bg-green-500/20 dark:bg-green-500/10 rounded-lg border-2 border-green-500/40 px-3 py-2 font-bold text-green-500 dark:text-green-400">
+            <CircleCheck size={24} />
+            <span>Connected</span>
           </div>
         ) : (
           <Link
+          target='_blank'
             href={
               title == 'Discord'
                 ? process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
@@ -58,7 +60,7 @@ const ConnectionCard = ({
                 ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
                 : '#'
             }
-            className=" rounded-lg bg-primary p-2 font-bold text-primary-foreground"
+            className="rounded-lg bg-primary text-primary-foreground dark:text-primary-foreground-dark p-2 font-bold"
           >
             Connect
           </Link>

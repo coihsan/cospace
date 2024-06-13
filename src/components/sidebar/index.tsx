@@ -17,13 +17,13 @@ type Props = {}
 const SidebarOptions = () => {
     const pathName = usePathname()
   return (
-    <nav className="h-screen overflow-scroll justify-between flex items-center flex-col gap-10 py-6 px-2 z-10">
+    <nav className="h-screen overflow-scroll justify-between flex items-center flex-col gap-10 py-6 px-2 z-50 relative">
       <div className="flex items-center justify-center flex-col gap-8">
         <Link
           className="flex font-bold flex-row "
           href="/"
         >
-          fuzzie.
+          cospace
         </Link>
         <TooltipProvider>
           {menuOptions.map((menuItem) => (
@@ -34,9 +34,9 @@ const SidebarOptions = () => {
                     <Link
                       href={menuItem.href}
                       className={clsx(
-                        'group h-8 w-8 flex items-center justify-center  scale-[1.5] rounded-lg p-[3px]  cursor-pointer',
+                        'group h-6 w-6 flex items-center justify-center scale-[1.5] rounded-lg p-[3px] cursor-pointer hover:border hover:border-muted-foreground/20',
                         {
-                          'dark:bg-[#2F006B] bg-[#EEE0FF] ':
+                          'dark:bg-muted-foreground/20 bg-foreground text-white ':
                             pathName === menuItem.href,
                         }
                       )}
@@ -49,7 +49,7 @@ const SidebarOptions = () => {
                 </TooltipTrigger>
                 <TooltipContent
                   side="right"
-                  className="bg-black/10 backdrop-blur-xl"
+                  className="dark:bg-muted-foreground/10 dark:text-white bg-foreground/20 text-black backdrop-blur-md"
                 >
                   <p>{menuItem.name}</p>
                 </TooltipContent>
@@ -88,7 +88,7 @@ const SidebarOptions = () => {
           </div>
         </div>
       </div>
-      <div className="bg-green-800">
+      <div className="">
         <ModeToggle />
       </div>
     </nav>

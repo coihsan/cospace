@@ -88,7 +88,7 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
         />
         <Button
           type="submit"
-          className="self-start hover:bg-[#2F006B] hover:text-white "
+          className="self-start hover:ring-2 ring-primary/10 ring-offset-2 ring-offset-background"
         >
           {isLoading ? (
             <>

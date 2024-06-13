@@ -1,6 +1,6 @@
 'use server'
-import clerk from '@clerk/clerk-sdk-node'
-import { auth } from '@clerk/nextjs'
+import { clerkClient as clerk } from '@clerk/clerk-sdk-node'
+import { auth } from '@clerk/nextjs/server'
 import { google } from 'googleapis'
 
 export const getFileMetaData = async () => {
