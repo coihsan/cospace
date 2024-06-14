@@ -4,6 +4,7 @@ import { ModeToggle } from '../global/mode-toggle'
 import { Book, Headphones, Search } from 'lucide-react'
 import Templates from '../icons/cloud_download'
 import { Input } from '@/components/ui/input'
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 import {
   Tooltip,
@@ -11,7 +12,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { UserButton } from '@clerk/nextjs'
 const InfoBar = () =>{
     return (
         <div className='flex flex-row justify-end gap-6 items-center px-4 py-4 w-full'>
@@ -35,7 +35,14 @@ const InfoBar = () =>{
                 </TooltipContent>
                 </Tooltip>
                 </TooltipProvider>
-            <UserButton />
+            <div>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            </div>
         </div>
     )
 }
