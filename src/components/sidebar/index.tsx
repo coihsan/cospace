@@ -88,9 +88,6 @@ const SidebarOptions = () => {
           </div>
         </div>
       </div>
-      <div className="">
-        <ModeToggle />
-      </div>
     </nav>
   )
 }

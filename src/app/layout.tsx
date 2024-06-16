@@ -20,6 +20,11 @@ export default function RootLayout({
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      appearance={{
+        elements:{
+          card: 'bg-neutral-950 text-neutral-100'
+        }
+      }}
     >
       <html lang="en">
         <body className={font.className}>

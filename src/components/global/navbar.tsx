@@ -34,7 +34,6 @@ const Navbar = async (props: Props) => {
         </Link>
           {user ? <UserButton afterSignOutUrl='/' /> : null}
         <MenuIcon className="md:hidden" />
-        <ModeToggle />
       </aside>
     </header>
   )
