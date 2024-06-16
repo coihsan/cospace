@@ -140,7 +140,7 @@ const EditorCanvas = (props: Props) => {
 
   useEffect(() => {
     dispatch({ type: 'LOAD_DATA', payload: { edges, elements: nodes } })
-  }, [nodes, edges])
+  }, [nodes, edges, dispatch])
 
   const nodeTypes = useMemo(
     () => ({
@@ -173,7 +173,7 @@ const EditorCanvas = (props: Props) => {
 
   useEffect(() => {
     onGetWorkFlow()
-  }, [])
+  }, [onGetWorkFlow])
 
   return (
     <ResizablePanelGroup direction="horizontal">

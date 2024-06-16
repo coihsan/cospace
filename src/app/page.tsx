@@ -1,14 +1,7 @@
 import Image from "next/image";
 import Navbar from '@/components/global/navbar'
-import { ContainerScroll } from '@/components/global/container-scroll-animation'
-import { Button } from "@/components/ui/button";
-import { InfiniteMovingCards } from "@/components/global/infinite-moving-cards";
-import { HeroParallax } from "@/components/global/connect-parallax";
-import { LampComponent } from "@/components/global/lamp";
-import { CardBody, CardContainer, CardItem } from "@/components/global/3d-card";
-import { CheckIcon } from "lucide-react";
-import { clients, products } from '@/lib/constant'
-export default function Home() {
+
+export default function Home(){
   return (
     <main className="flex items-center justify-center flex-col overflow-hidden">
       <Navbar />

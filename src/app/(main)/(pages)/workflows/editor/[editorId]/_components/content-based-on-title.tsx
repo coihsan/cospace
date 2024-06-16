@@ -64,7 +64,7 @@ const ContentBasedOnTitle = ({
       }
     }
     reqGoogle()
-  }, [])
+  }, [setFile])
 
   // @ts-ignore
   const nodeConnectionType: any = nodeConnection[nodeMapper[title]]
