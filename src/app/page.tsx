@@ -11,7 +11,7 @@ export default function Home(){
               <h1 className="text-4xl font-semibold">
                 Start For Free Today <br />
                 <span className="text-4xl md:text-[4rem] font-bold mt-1 leading-none">
-                Automate Your Work With Fuzzie
+                Automate Your Work With cospace
                 </span>
               </h1>
             <Image
