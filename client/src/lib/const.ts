@@ -48,50 +48,8 @@ interface TextEditorMenuBarProps {
     disabled?: boolean
 }
 
-export const TextEditorMenuBar = (editor: Editor): TextEditorMenuBarProps[] =>
+export const FormatStyleMenuBar = (editor: Editor): TextEditorMenuBarProps[] =>
     [
-        {
-            icon: Bold,
-            label: LabelMenubar.BOLD,
-            onClick: () => editor.chain().focus().toggleBold().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('bold') ? 'bg-muted' : '',
-        },
-        {
-            icon: Italic,
-            label: LabelMenubar.ITALIC,
-            onClick: () => editor.chain().focus().toggleItalic().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('italic') ? 'bg-muted' : '',
-        },
-        {
-            icon: Strikethrough,
-            label: LabelMenubar.STRIKE,
-            onClick: () => editor.chain().focus().toggleStrike().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('strike') ? 'bg-muted' : '',
-        },
-        {
-            icon: Heading1,
-            label: LabelMenubar.H1,
-            onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-            className: editor.isActive('heading', { level: 1 }) ? 'bg-muted' : '',
-        },
-        {
-            icon: Heading2,
-            label: LabelMenubar.H2,
-            onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-            className: editor.isActive('heading', { level: 2 }) ? 'bg-muted' : 'bg-transparent',
-        },
-        {
-            icon: Heading3,
-            label: LabelMenubar.H3,
-            onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-            className: editor.isActive('heading', { level: 3 }) ? 'bg-muted' : '',
-        },
-        {
-            icon: Pilcrow,
-            label: LabelMenubar.P,
-            onClick: () => editor.chain().focus().setParagraph().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('paragraph') ? 'bg-muted' : '',
-        },
         {
             icon: AlignLeft,
             label: LabelMenubar.TEXT_ALIGN_LEFT,
@@ -117,25 +75,6 @@ export const TextEditorMenuBar = (editor: Editor): TextEditorMenuBarProps[] =>
             className: editor.isActive({ textAlign: 'justify' }) ? 'bg-muted' : '',
         },
         {
-            icon: Code,
-            label: LabelMenubar.CODE,
-            onClick: () => editor.chain().focus().toggleCode().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('code') ? 'bg-muted' : '',
-            disabled: !editor.can().chain().focus().toggleCode().run()
-        },
-        {
-            icon: CodeSquare,
-            label: LabelMenubar.CODE_BLOCK,
-            onClick: () => editor.chain().focus().toggleCodeBlock().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('codeBlock') ? 'bg-muted' : '',
-        },
-        {
-            icon: Quote,
-            label: LabelMenubar.QUOTE,
-            onClick: () => editor.chain().focus().toggleBlockquote().run() && !editor.isActive('codeBlock'),
-            className: editor.isActive('blockquote') ? 'bg-muted' : '',
-        },
-        {
             icon: List,
             label: LabelMenubar.UL,
             onClick: () => editor.chain().focus().toggleBulletList().run() && !editor.isActive('codeBlock'),
@@ -155,3 +94,73 @@ export const TextEditorMenuBar = (editor: Editor): TextEditorMenuBarProps[] =>
         },
 
     ]
+
+export const NodeFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
+    {
+        icon: Bold,
+        label: LabelMenubar.BOLD,
+        onClick: () => editor.chain().focus().toggleBold().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('bold') ? 'bg-muted' : '',
+    },
+    {
+        icon: Italic,
+        label: LabelMenubar.ITALIC,
+        onClick: () => editor.chain().focus().toggleItalic().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('italic') ? 'bg-muted' : '',
+    },
+    {
+        icon: Strikethrough,
+        label: LabelMenubar.STRIKE,
+        onClick: () => editor.chain().focus().toggleStrike().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('strike') ? 'bg-muted' : '',
+    },
+]
+
+export const HeadingFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
+    {
+        icon: Pilcrow,
+        label: LabelMenubar.P,
+        onClick: () => editor.chain().focus().setParagraph().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('paragraph') ? 'bg-muted' : '',
+    },
+    {
+        icon: Heading1,
+        label: LabelMenubar.H1,
+        onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+        className: editor.isActive('heading', { level: 1 }) ? 'bg-muted' : '',
+    },
+    {
+        icon: Heading2,
+        label: LabelMenubar.H2,
+        onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+        className: editor.isActive('heading', { level: 2 }) ? 'bg-muted' : 'bg-transparent',
+    },
+    {
+        icon: Heading3,
+        label: LabelMenubar.H3,
+        onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+        className: editor.isActive('heading', { level: 3 }) ? 'bg-muted' : '',
+    },
+]
+
+export const CodeFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
+    {
+        icon: Code,
+        label: LabelMenubar.CODE,
+        onClick: () => editor.chain().focus().toggleCode().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('code') ? 'bg-muted' : '',
+        disabled: !editor.can().chain().focus().toggleCode().run()
+    },
+    {
+        icon: CodeSquare,
+        label: LabelMenubar.CODE_BLOCK,
+        onClick: () => editor.chain().focus().toggleCodeBlock().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('codeBlock') ? 'bg-muted' : '',
+    },
+    {
+        icon: Quote,
+        label: LabelMenubar.QUOTE,
+        onClick: () => editor.chain().focus().toggleBlockquote().run() && !editor.isActive('codeBlock'),
+        className: editor.isActive('blockquote') ? 'bg-muted' : '',
+    },
+]

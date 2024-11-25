@@ -1,8 +1,8 @@
 import Dexie, { Table } from 'dexie';
-import { FolderItem, NoteItem, TagItem } from './types';
+import { FolderItem, NoteItem, TagItem } from '../types';
 
 
-export class NulihApp extends Dexie {
+export class Cospace extends Dexie {
   notes!: Table<NoteItem, string>;
   tags!: Table<TagItem, string>;
   folders!: Table<FolderItem, string>; 
@@ -17,4 +17,4 @@ export class NulihApp extends Dexie {
   };
 }
 
-export const db = new NulihApp();
+export const daxie = new Cospace();

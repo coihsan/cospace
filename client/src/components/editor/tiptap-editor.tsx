@@ -4,6 +4,9 @@ import { useEffect } from 'react'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
 import * as Y from 'yjs'
+import { Separator } from "@/components/ui/separator"
+import MenuToolbar from '@/components/global/toolbar'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface EditorProps {
   content: string
@@ -12,24 +15,39 @@ interface EditorProps {
   noteId: number
 }
 
-const TiptapEditor = ({ content, onChange, ydoc, noteId }: EditorProps) => {
+const TiptapEditor: React.FC<EditorProps> = ({ content, onChange, ydoc, noteId }) => {
   const editor = useEditor({
     extensions: [
-        StarterKit,
-        Placeholder.configure({
-            placeholder: () => {
-                return 'Write something...'
-            },
-          }),
-        TextAlign.configure({
-            types: ['heading', 'paragraph'],
-        }),       
+      StarterKit,
+      Placeholder.configure({
+        placeholder: () => {
+          return 'Write something...'
+        },
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
     ],
     content,
-    editable: true,
+    // onFocus: ({editor}) => {
+    //   editor.setEditable(true)
+    //   console.log('true')
+    // },
+    // onBlur: ({editor}) => {
+    //   editor.setEditable(false)
+    //   console.log('false')
+    // },
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML())
     },
+    onCreate: ({ editor }) => {
+      editor.isEmpty
+    },
+    editorProps: {
+      attributes: {
+        class: "prose prose-sm max-w-none outline-none border-none"
+      }
+    }
   })
 
   useEffect(() => {
@@ -38,6 +56,21 @@ const TiptapEditor = ({ content, onChange, ydoc, noteId }: EditorProps) => {
     }
   }, [content, editor])
 
-  return <EditorContent editor={editor} className="prose prose-sm max-w-none" />
+  return (
+    <div className=''>
+      <MenuToolbar editor={editor} />
+      <input
+        type="text"
+        value={''}
+        placeholder="Title it's here"
+        className="text-2xl bg-transparent border-none outline-none w-full"
+      />
+      <Separator className="my-5" />
+      <ScrollArea className='h-full'>
+        <EditorContent editor={editor} />
+      </ScrollArea>
+    </div>
+  )
+
 }
 export default TiptapEditor
