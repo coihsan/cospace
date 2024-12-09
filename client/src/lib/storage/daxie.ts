@@ -1,7 +1,6 @@
 import Dexie, { Table } from 'dexie';
 import { FolderItem, NoteItem, TagItem } from '../types';
 
-
 export class Cospace extends Dexie {
   notes!: Table<NoteItem, string>;
   tags!: Table<TagItem, string>;
@@ -10,9 +9,9 @@ export class Cospace extends Dexie {
   constructor() {
     super('nulihapp');
     this.version(1).stores({
-      notes: '++id, content, title, favorite, lastUpdated, trash, folderId',
-      folders: '++id, name, icon, createdAt, lastUpdated',
-      tags: '++id, name, color',
+      notes: '++id, content, title, favorite, lastUpdated, trash, folderId, user',
+      folders: '++id, name, icon, lastUpdated',
+      tags: '++id, name, color, lastUpdated',
     });
   };
 }

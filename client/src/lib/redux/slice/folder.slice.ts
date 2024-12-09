@@ -4,7 +4,6 @@ import { createSlice } from "@reduxjs/toolkit"
 export const initialState : FolderState = {
     folder: [],
     activeFolderId: "",
-    selectedFolderId: [],
     loading: false,
     status: "idle",
     error: null

@@ -1,21 +1,25 @@
 import * as React from "react"
-import { Command, Plus } from "lucide-react"
+import { Command, Frame, Map, PieChart, Plus } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarInput,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar"
 import { navMain } from "@/lib/const"
-import { ModeToggle } from "../global/mode-toggle"
 import { LabelText } from "@/lib/label-text"
+import FavoritesSidebar from "./favorites-sidebar"
+import FolderSidebar from "./folder-sidebar"
+import UserButton from "./user-button"
 
 // This is sample data
 const data = {
@@ -108,6 +112,77 @@ const data = {
   ],
 }
 
+const favorites = [
+  {
+    name: "Project Management & Task Tracking",
+    url: "#",
+    emoji: "📊",
+  },
+  {
+    name: "Family Recipe Collection & Meal Planning",
+    url: "#",
+    emoji: "🍳",
+  },
+  {
+    name: "Fitness Tracker & Workout Routines",
+    url: "#",
+    emoji: "💪",
+  },
+  {
+    name: "Book Notes & Reading List",
+    url: "#",
+    emoji: "📚",
+  },
+  {
+    name: "Sustainable Gardening Tips & Plant Care",
+    url: "#",
+    emoji: "🌱",
+  },
+  {
+    name: "Language Learning Progress & Resources",
+    url: "#",
+    emoji: "🗣️",
+  },
+  {
+    name: "Home Renovation Ideas & Budget Tracker",
+    url: "#",
+    emoji: "🏠",
+  },
+  {
+    name: "Personal Finance & Investment Portfolio",
+    url: "#",
+    emoji: "💰",
+  },
+  {
+    name: "Movie & TV Show Watchlist with Reviews",
+    url: "#",
+    emoji: "🎬",
+  },
+  {
+    name: "Daily Habit Tracker & Goal Setting",
+    url: "#",
+    emoji: "✅",
+  },
+]
+
+const projects = [
+  {
+    name: "Design Engineering",
+    url: "#",
+    icon: Frame,
+  },
+  {
+    name: "Sales & Marketing",
+    url: "#",
+    icon: PieChart,
+  },
+  {
+    name: "Travel",
+    url: "#",
+    icon: Map,
+  },
+]
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const [activeItem, setActiveItem] = React.useState(navMain[0])
@@ -122,7 +197,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     >
       <Sidebar
         collapsible="none"
-        className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
+        className="border-r w-full md:max-w-56"
       >
         <SidebarHeader>
           <SidebarMenu>
@@ -133,8 +208,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <Command className="size-4" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">Acme Inc</span>
-                    <span className="truncate text-xs">Enterprise</span>
+                    cospace
                   </div>
                 </a>
               </SidebarMenuButton>
@@ -144,6 +218,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
+            <SidebarGroupLabel>Menu</SidebarGroupLabel>
               <SidebarMenu>
                 {navMain.map((item) => (
                   <SidebarMenuItem key={item.title}>
@@ -174,9 +249,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
+            <SidebarSeparator />
+            <FavoritesSidebar favorites={favorites} />
+            <SidebarSeparator />
+            <FolderSidebar projects={projects} />
         </SidebarContent>
         <SidebarFooter>
-          <ModeToggle />
+          <UserButton user={{
+            name: "Achonk",
+            email: "achonk.mail.com",
+            avatar: "/shadcn.jpg"
+          }} />
         </SidebarFooter>
       </Sidebar>
 

@@ -27,7 +27,6 @@ export const initialState: NoteState = {
     note: [],
     activeNoteId: "",
     activeFolderId: "",
-    selectedNoteId: [],
     loading: false,
     status: "idle",
     error: null,

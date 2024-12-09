@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/react"
 import ToolbarButton from "../toolbar-button"
 import { FormatStyleMenuBar, NodeFormatMenuBar, HeadingFormatMenuBar, CodeFormatMenuBar } from "@/lib/const"
 import { Separator } from "@/components/ui/separator"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import ToolbarHeading from "./toolbar-heading";
 
 interface MenuToolbarProps {
     editor: Editor | null;
@@ -17,8 +17,8 @@ const MenuToolbar: React.FC<MenuToolbarProps> = ({ editor }) => {
     const codeFormat = CodeFormatMenuBar(editor)
 
     return (
-        <div className="mb-6 ">
-            <div className="flex items-center flex-1 flex-nowrap gap-1 h-auto bg-background overflow-x-hidden">
+        <div className="mb-6 fixed z-50 bg-white dark:bg-zinc-900 border-b border-border w-full p-2">
+            <div className="flex items-center flex-1 flex-nowrap gap-1 h-auto bg-transparent overflow-x-hidden">
                 {nodeFormat.map((item, index) => (
                     <ToolbarButton  
                         key={index}
@@ -31,7 +31,8 @@ const MenuToolbar: React.FC<MenuToolbarProps> = ({ editor }) => {
                     </ToolbarButton>
                 ))}
                 <Separator className="h-6" orientation="vertical" />
-                {headingFormat.map((item, index) => (
+                <ToolbarHeading editor={editor} />
+                {/* {headingFormat.map((item, index) => (
                     <ToolbarButton
                         key={index}
                         onClick={item.onClick}
@@ -41,7 +42,7 @@ const MenuToolbar: React.FC<MenuToolbarProps> = ({ editor }) => {
                     >
                         <item.icon />
                     </ToolbarButton>
-                ))}
+                ))} */}
                 <Separator className="h-6" orientation="vertical" />
                 {formatStyle.map((item, index) => (
                     <ToolbarButton

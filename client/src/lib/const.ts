@@ -1,4 +1,4 @@
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bell, Bold, Code, CodeSquare, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Minus, NotepadText, Pilcrow, Quote, Settings, Star, Strikethrough, Trash2 } from 'lucide-react';
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bell, Bold, Code, CodeSquare, Folder, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Minus, NotepadText, Pilcrow, Quote, Settings, Star, Strikethrough, Trash2 } from 'lucide-react';
 import { MenuType } from './enums';
 import { LabelMenubar } from './label-text';
 import { Editor } from '@tiptap/react';
@@ -11,20 +11,11 @@ export const navMain = [
         isActive: true,
     },
     {
-        title: MenuType.FAVORITE,
-        url: "#",
-        icon: Star,
-        isActive: false,
-    },
-    {
         title: MenuType.NOTIFICATION,
         url: "#",
         icon: Bell,
         isActive: false,
     },
-]
-
-export const footerMain = [
     {
         title: MenuType.TRASH,
         url: "/",
