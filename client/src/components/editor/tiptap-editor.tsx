@@ -1,11 +1,13 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import StarterKit from '@tiptap/starter-kit'
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
 import { ChangeEventHandler, useEffect } from 'react'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
 import * as Y from 'yjs'
-import MenuToolbar from '@/components/global/toolbar'
+import MenuToolbar from '@/components/toolbar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '../ui/separator'
 
@@ -26,6 +28,8 @@ const TiptapEditor: React.FC<EditorProps> = ({ content, onChange, ydoc, noteId, 
   const editor = useEditor({
     extensions: [
       liveblocks,
+      Color,
+      TextStyle,
       StarterKit.configure({
         history: false,
       }),

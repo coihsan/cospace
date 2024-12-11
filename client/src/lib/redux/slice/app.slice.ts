@@ -1,12 +1,14 @@
+import { MenuType } from "@/lib/enums";
 import { AppState } from "@/lib/types";
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export const initialState : AppState = {
     editable: false,
     darkMode: false,
     loading: false,
     status: "idle",
-    error: null
+    error: null,
+    activeMenu: MenuType.NOTES
 }
 
 const appSlice = createSlice({
@@ -15,9 +17,12 @@ const appSlice = createSlice({
     reducers: {
         setEditable : (state, action) => {
             state.editable = action.payload
-        }
+        },
+        setActiveMenu: (state, action: PayloadAction<MenuType>) => {
+            state.activeMenu = action.payload
+        },
     }
 })
 
-export const { setEditable } = appSlice.actions
+export const { setEditable, setActiveMenu } = appSlice.actions
 export default appSlice.reducer

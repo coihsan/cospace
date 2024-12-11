@@ -1,5 +1,5 @@
 import { NoteItem } from "@/lib/types"
-import { SidebarContent, SidebarGroup, SidebarGroupContent } from "../ui/sidebar"
+import { SidebarContent, SidebarGroup, SidebarGroupContent } from "../components/ui/sidebar"
 import React from "react"
 import { Star } from "lucide-react"
 

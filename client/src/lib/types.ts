@@ -1,4 +1,5 @@
 import { Content } from "@tiptap/react";
+import { MenuType } from "./enums";
 
 type Role = "owner" | "canEdit" | "viewOnly";
 
@@ -16,18 +17,21 @@ export interface User {
 }
 
 export interface NoteItem {
-    id: string,
-    title: string,
-    content: Content,
+    id: string;
+    title: string;
+    content: Content;
     lastModified: Date;
-    tagsId?: string,
-    trash: boolean,
-    favorite: boolean,
-    folderId?: string,
+    tagsId?: string;
+    trash: boolean;
+    favorite: boolean;
+    folderId?: string;
     collaborators: string[];
-    version?: string[]
+    version?: string[];
     user: User[];
-    syncedAt?: Date
+    syncedAt?: Date;
+    roomId?: string;
+    ownerId: string;
+    organizationId?: string;
 }
 
 export interface TagItem {
@@ -91,6 +95,7 @@ export interface FolderState {
 
 export interface AppState {
     editable: boolean;
+    activeMenu: MenuType;
     darkMode: boolean;
     loading: boolean;
     status: Status;

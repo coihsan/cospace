@@ -47,6 +47,7 @@ export enum LabelText {
     SEARCH_FAVORITES= "Search favorites",
     SEARCH_TRASH= "Search trash",
     BOOMARK = "BOOMARK",
+    HISTORY = "History"
   }
 
   export enum LabelMenubar {

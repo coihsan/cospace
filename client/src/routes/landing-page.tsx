@@ -1,7 +1,7 @@
-import { Button } from "./components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Link } from "react-router";
 
-const App = () => {
+const LandingPage = () => {
   return (
     <main className="w-full max-w-screen-lg mx-auto px-4">
       <header className="flex items-center justify-between w-full my-4 border px-5 py-2 rounded-full">
@@ -22,4 +22,4 @@ const App = () => {
     </main>
   )
 }
-export default App
+export default LandingPage

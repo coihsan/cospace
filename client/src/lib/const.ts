@@ -1,4 +1,4 @@
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bell, Bold, Code, CodeSquare, Folder, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Minus, NotepadText, Pilcrow, Quote, Settings, Star, Strikethrough, Trash2 } from 'lucide-react';
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, StarIcon, Bold, Code, CodeSquare, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Minus, NotepadText, Pilcrow, Quote, Settings, Strikethrough, Trash2 } from 'lucide-react';
 import { MenuType } from './enums';
 import { LabelMenubar } from './label-text';
 import { Editor } from '@tiptap/react';
@@ -11,9 +11,9 @@ export const navMain = [
         isActive: true,
     },
     {
-        title: MenuType.NOTIFICATION,
+        title: MenuType.FAVORITE,
         url: "#",
-        icon: Bell,
+        icon: StarIcon,
         isActive: false,
     },
     {
@@ -153,5 +153,56 @@ export const CodeFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
         label: LabelMenubar.QUOTE,
         onClick: () => editor.chain().focus().toggleBlockquote().run() && !editor.isActive('codeBlock'),
         className: editor.isActive('blockquote') ? 'bg-muted' : '',
+    },
+]
+
+export const ColorStyle = (editor: Editor) => [
+    {
+        color: "#958DF1",
+        onClick: () => editor.chain().focus().setColor('#958DF1').run(),
+        className: editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : '',
+        dataTestid: "setPurple"
+    },
+    {
+        color: '#F98181',
+        onClick: () => editor.chain().focus().setColor('#F98181').run(),
+        className: editor.isActive('textStyle', { color: '#F98181' }) ? 'is-active' : '',
+        dataTestid: "setRed"
+    },
+    {
+        color: '#FBBC88',
+        onClick: () => editor.chain().focus().setColor('#FBBC88').run(),
+        className: editor.isActive('textStyle', { color: '#FBBC88' }) ? 'is-active' : '',
+        dataTestid: "setOrange"
+    },
+    {
+        color: '#FAF594',
+        onClick: () => editor.chain().focus().setColor('#FAF594').run(),
+        className: editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : '',
+        dataTestid: "setYellow"
+    },
+    {
+        color: '#70CFF8',
+        onClick: () => editor.chain().focus().setColor('#70CFF8').run(),
+        className: editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : '',
+        dataTestid: "setBlue"
+    },
+    {
+        color: '#94FADB',
+        onClick: () => editor.chain().focus().setColor('#94FADB').run(),
+        className: editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : '',
+        dataTestid: "setTeal"
+    },
+    {
+        color: '#B9F18D',
+        onClick: () => editor.chain().focus().setColor('#B9F18D').run(),
+        className: editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : '',
+        dataTestid: "setGreen"
+    },
+    {
+        color: '',
+        onClick: () => editor.chain().focus().unsetColor().run(),
+        className: editor.isActive('textStyle', { color: '' }) ? 'is-active' : '',
+        dataTestid: "unsetColor"
     },
 ]

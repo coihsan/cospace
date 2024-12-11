@@ -1,10 +1,12 @@
 import { Separator } from "@radix-ui/react-separator"
-import { Star, UserPlus } from "lucide-react"
+import { History, Star } from "lucide-react"
 import { SidebarTrigger } from "../ui/sidebar"
 import ButtonAction from "../global/button-action"
 import { LabelText } from "@/lib/label-text"
 import { ModeToggle } from "../global/mode-toggle"
 import EditorOptions from "./editor-options"
+import NotificationsPopover from "../global/notification-popover"
+import ShareDialog from "../global/share-dialog"
 
 const HeaderEditor = () => {
 
@@ -16,15 +18,16 @@ const HeaderEditor = () => {
         <p>note title</p>
       </div>
       <div className="flex items-center gap-1 w-max">
-        <ButtonAction tooltip={"Invite user to note"} variant={"outline"}>
-          <UserPlus />
-          Invite
-        </ButtonAction>
+        <ShareDialog />
         <ButtonAction size={'icon'} tooltip={LabelText.ADD_FAVORITES} variant={"outline"}>
           <Star />
         </ButtonAction>
-        <EditorOptions />
+        <ButtonAction size={'icon'} tooltip={LabelText.HISTORY} variant={"outline"}>
+          <History />
+        </ButtonAction>
         <ModeToggle />
+        <NotificationsPopover />
+        <EditorOptions />
       </div>
     </header>
   )

@@ -7,9 +7,9 @@ export class Cospace extends Dexie {
   folders!: Table<FolderItem, string>; 
 
   constructor() {
-    super('nulihapp');
+    super('cospace');
     this.version(1).stores({
-      notes: '++id, content, title, favorite, lastUpdated, trash, folderId, user',
+      notes: '++id, content, title, favorite, lastUpdated, trash, folderId, user, roomId, ownerId, organizationId',
       folders: '++id, name, icon, lastUpdated',
       tags: '++id, name, color, lastUpdated',
     });

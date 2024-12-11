@@ -1,7 +1,7 @@
 import AuthWrapper from "@/components/auth/auth-wrapper"
 import { Input } from "@/components/ui/input"
 
-const SignIn = () => {
+const SignInPage = () => {
     return(
         <AuthWrapper
         formLabel="Login"
@@ -15,4 +15,4 @@ const SignIn = () => {
         </AuthWrapper>
     )
 }
-export default SignIn
+export default SignInPage

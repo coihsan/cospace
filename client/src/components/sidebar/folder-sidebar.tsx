@@ -3,6 +3,7 @@ import {
   Folder,
   Forward,
   MoreHorizontal,
+  Pencil,
   Plus,
   Trash2,
 } from "lucide-react"
@@ -37,7 +38,7 @@ const FolderSidebar = ({
   const { isMobile } = useSidebar()
 
   return (
-    <Collapsible className="group/collapsible">
+    <Collapsible defaultOpen className="group/collapsible">
       <SidebarGroup className="group-data-[collapsible=icon]:hidden">
         <SidebarGroupLabel asChild>
           <CollapsibleTrigger>
@@ -71,17 +72,17 @@ const FolderSidebar = ({
                     align={isMobile ? "end" : "start"}
                   >
                     <DropdownMenuItem>
-                      <Folder className="text-muted-foreground" />
-                      <span>View Project</span>
+                      <Pencil className="text-muted-foreground" />
+                      <span>Rename Folder</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Forward className="text-muted-foreground" />
-                      <span>Share Project</span>
+                      <span>Share Folder</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Trash2 className="text-muted-foreground" />
-                      <span>Delete Project</span>
+                    <DropdownMenuItem className="text-red-500 dark:text-red-600">
+                      <Trash2 />
+                      <span>Delete Folder</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

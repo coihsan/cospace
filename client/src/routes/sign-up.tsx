@@ -1,6 +1,6 @@
 import AuthWrapper from "@/components/auth/auth-wrapper"
 
-const SignUp = () => {
+const SignUpPage = () => {
     return(
         <AuthWrapper
         formLabel="Sign up"
@@ -11,4 +11,4 @@ const SignUp = () => {
         </AuthWrapper>
     )
 }
-export default SignUp
+export default SignUpPage

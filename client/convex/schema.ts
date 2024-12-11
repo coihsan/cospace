@@ -14,6 +14,15 @@ export default defineSchema({
     collaborators: v.array(v.string()),
     user: v.array(v.string()),
     version: v.array(v.string()),
+    roomId: v.optional(v.string()),
+    ownerId: v.string(),
+    organizationId: v.optional(v.string())
+  })
+  .index("by_user", ["user"])
+  .index('by_organization_id', ["organizationId"])
+  .searchIndex("search_title", {
+    searchField: "title",
+    filterFields: ['ownerId', 'organizationId']
   }),
   folder: defineTable({
     id: v.string(),

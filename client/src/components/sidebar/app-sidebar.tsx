@@ -20,6 +20,11 @@ import { LabelText } from "@/lib/label-text"
 import FavoritesSidebar from "./favorites-sidebar"
 import FolderSidebar from "./folder-sidebar"
 import UserButton from "./user-button"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
+import { getApp } from "@/lib/redux/selector"
+import { setActiveMenu } from "@/lib/redux/slice/app.slice"
+import { Badge } from "../ui/badge"
+import NoteOptios from "../notes/note-options"
 
 // This is sample data
 const data = {
@@ -184,8 +189,10 @@ const projects = [
 ]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const dispatch = useAppDispatch()
 
-  const [activeItem, setActiveItem] = React.useState(navMain[0])
+  const { activeMenu } = useAppSelector(getApp)
+
   const [mails, setMails] = React.useState(data.mails)
   const { setOpen } = useSidebar()
 
@@ -218,7 +225,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
-            <SidebarGroupLabel>Menu</SidebarGroupLabel>
+              <SidebarGroupLabel>Menu</SidebarGroupLabel>
               <SidebarMenu>
                 {navMain.map((item) => (
                   <SidebarMenuItem key={item.title}>
@@ -228,7 +235,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         hidden: false,
                       }}
                       onClick={() => {
-                        setActiveItem(item)
+                        dispatch(setActiveMenu(item.title))
                         const mail = data.mails.sort(() => Math.random() - 0.5)
                         setMails(
                           mail.slice(
@@ -238,7 +245,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         )
                         setOpen(true)
                       }}
-                      isActive={activeItem.title === item.title}
+                      isActive={activeMenu === item.title}
                       className="px-2.5 md:px-2"
                     >
                       <item.icon />
@@ -249,10 +256,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-            <SidebarSeparator />
-            <FavoritesSidebar favorites={favorites} />
-            <SidebarSeparator />
-            <FolderSidebar projects={projects} />
+          <SidebarSeparator />
+          <FavoritesSidebar favorites={favorites} />
+          <SidebarSeparator />
+          <FolderSidebar projects={projects} />
         </SidebarContent>
         <SidebarFooter>
           <UserButton user={{
@@ -269,7 +276,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-base font-medium text-foreground">
-              {activeItem.title}
+              {activeMenu}
             </div>
             <SidebarMenuButton tooltip={{
               children: LabelText.CREATE_NEW_NOTE,
@@ -281,26 +288,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarInput placeholder="Type to search..." />
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup className="px-0">
-            <SidebarGroupContent>
+            <SidebarMenu>
               {mails.map((mail) => (
-                <a
-                  href="#"
-                  key={mail.email}
-                  className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
-                  <div className="flex w-full items-center gap-2">
-                    <span>{mail.name}</span>{" "}
-                    <span className="ml-auto text-xs">{mail.date}</span>
-                  </div>
-                  <span className="font-medium">{mail.subject}</span>
-                  <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                    {mail.teaser}
-                  </span>
-                </a>
+                <SidebarMenuItem>
+                  <a
+                    href="#"
+                    key={mail.email}
+                    className="flex flex-col border-b-[1px] items-start whitespace-nowrap p-4 text-sm leading-tight hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  >
+                    <div className="flex flex-col items-start gap-2">
+                      <div className="flex w-full items-center gap-2">
+                        <Badge variant={'outline'}>{mail.name}</Badge>
+                        <span className="ml-auto text-xs text-muted-foreground">{mail.date}</span>
+                      </div>
+                      <span className="font-medium">{mail.subject}</span>
+                      <span className="line-clamp-2 w-[270px] whitespace-break-spaces text-muted-foreground text-xs">
+                        {mail.teaser}
+                      </span>
+                    </div>
+                    <div>
+                    <NoteOptios />
+                    </div>
+                  </a>
+                </SidebarMenuItem>
               ))}
-            </SidebarGroupContent>
-          </SidebarGroup>
+            </SidebarMenu>
         </SidebarContent>
       </Sidebar>
     </Sidebar>

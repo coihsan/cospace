@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express'
+import cors from 'cors'
 import {
   clerkClient,
   clerkMiddleware,
@@ -7,18 +8,31 @@ import {
   requireAuth,
 } from '@clerk/express';
 
-const app = express();
+const app: Express = express()
 const PORT = 3000;
 
 app.use(clerkMiddleware());
+app.use(cors())
 
-app.get('/protected', requireAuth(), async (req, res) => {
+app.get('/api/notes', requireAuth({ signInUrl: '/sign-in'}), async (req: Request, res: Response) => {
   const { userId } = getAuth(req);
-
   const user = await clerkClient.users.getUser(userId as string);
-
   res.json({ user });
 });
+
+app.get('/sign-in', (req, res) => {
+  res.render('sign-in')
+})
+
+const hasPermission = (req: Request, res: Response, next : NextFunction) => {
+  const auth = getAuth(req)
+
+  if(!auth.has({ permission: 'admin'})){
+    return res.status(403).send('Forbidden')
+  }
+
+  return next()
+}
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
