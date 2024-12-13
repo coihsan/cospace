@@ -1,5 +1,6 @@
 import { Content } from "@tiptap/react"
 import { LabelText } from "./label-text"
+import { useEffect, useRef } from "react"
 
 export const getNotesTitle = (title: Content): string => {
     const titles = title?.toString()
@@ -32,3 +33,20 @@ export const copyToClipboard = (noteId: string, content: string) => {
         console.log('Failed copy to clipboard')
     }
 }
+
+export function useForwardedRef<T>(ref: React.ForwardedRef<T>) {
+    const innerRef = useRef<T>(null);
+  
+    useEffect(() => {
+      if (!ref) return;
+      if (typeof ref === 'function') {
+        ref(innerRef.current);
+      } else {
+        ref.current = innerRef.current;
+      }
+    });
+  
+    return innerRef;
+  }
+
+export const getRandomElement = (list : string[] | string) => list[Math.floor(Math.random() * list.length)]

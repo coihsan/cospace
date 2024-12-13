@@ -13,8 +13,8 @@ import LandingPage from './routes/landing-page.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ConvexProviders>
-      <Provider store={store}>
+    <Provider store={store}>
+      <ConvexProviders>
         <ThemeProvider>
           <BrowserRouter>
             <Routes>
@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')!).render(
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
-      </Provider>
-    </ConvexProviders>
+      </ConvexProviders>
+    </Provider>
   </StrictMode>,
 )

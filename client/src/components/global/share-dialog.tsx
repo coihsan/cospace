@@ -29,7 +29,7 @@ const ShareDialog: React.FC = () => {
             title="Share"
             description="Share your notes and make collaboration"
             labelModal={
-                <Button variant="outline">
+                <Button>
                     <Lock />
                     Share
                 </Button>

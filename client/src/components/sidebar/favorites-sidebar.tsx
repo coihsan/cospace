@@ -24,7 +24,7 @@ const FavoritesSidebar = ({ favorites }: {
                 <CollapsibleTrigger>
                     <SidebarGroupLabel>
                         <ChevronDown className="mr-2 transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                        Favorites
+                        Quick link
                     </SidebarGroupLabel>
                 </CollapsibleTrigger>
                 <CollapsibleContent>

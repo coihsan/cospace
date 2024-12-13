@@ -174,17 +174,38 @@ const projects = [
   {
     name: "Design Engineering",
     url: "#",
-    icon: Frame,
   },
   {
     name: "Sales & Marketing",
     url: "#",
-    icon: PieChart,
   },
   {
     name: "Travel",
     url: "#",
-    icon: Map,
+  },
+  {
+    name: "UI Design",
+    url: "#",
+  },
+  {
+    name: "SEO",
+    url: "#",
+  },
+  {
+    name: "Digital Marketing",
+    url: "#",
+  },
+  {
+    name: "Design Web",
+    url: "#",
+  },
+  {
+    name: "TodoApp",
+    url: "#",
+  },
+  {
+    name: "Nelly",
+    url: "#",
   },
 ]
 
@@ -227,8 +248,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarGroupContent className="px-1.5 md:px-0">
               <SidebarGroupLabel>Menu</SidebarGroupLabel>
               <SidebarMenu>
-                {navMain.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                {navMain.map((item, index) => (
+                  <SidebarMenuItem key={index}>
                     <SidebarMenuButton
                       tooltip={{
                         children: item.title,
@@ -256,8 +277,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-          <SidebarSeparator />
-          <FavoritesSidebar favorites={favorites} />
           <SidebarSeparator />
           <FolderSidebar projects={projects} />
         </SidebarContent>
@@ -289,11 +308,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
             <SidebarMenu>
-              {mails.map((mail) => (
-                <SidebarMenuItem>
+              {mails.map((mail, index) => (
+                <SidebarMenuItem key={index}>
                   <a
                     href="#"
-                    key={mail.email}
                     className="flex flex-col border-b-[1px] items-start whitespace-nowrap p-4 text-sm leading-tight hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   >
                     <div className="flex flex-col items-start gap-2">

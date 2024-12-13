@@ -1,4 +1,4 @@
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, StarIcon, Bold, Code, CodeSquare, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Minus, NotepadText, Pilcrow, Quote, Settings, Strikethrough, Trash2 } from 'lucide-react';
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, StarIcon, Bold, Code, CodeSquare, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Minus, NotepadText, Pilcrow, Quote, Settings, Strikethrough, Trash2, Undo, Redo } from 'lucide-react';
 import { MenuType } from './enums';
 import { LabelMenubar } from './label-text';
 import { Editor } from '@tiptap/react';
@@ -86,6 +86,21 @@ export const FormatStyleMenuBar = (editor: Editor): TextEditorMenuBarProps[] =>
 
     ]
 
+export const HistoryToolbar = (editor: Editor) => [
+    {
+        icon: Undo,
+        label: LabelMenubar.UNDO,
+        onClick: () => editor.commands.undo(),
+        className: editor.can().chain().focus().undo().run() ? 'bg-muted' : '',
+    },
+    {
+        icon: Redo,
+        label: LabelMenubar.REDO,
+        onClick: () => editor.commands.redo(),
+        className: editor.can().chain().focus().redo().run() ? 'bg-muted' : '',
+    }
+]
+
 export const NodeFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
     {
         icon: Bold,
@@ -156,53 +171,121 @@ export const CodeFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
     },
 ]
 
-export const ColorStyle = (editor: Editor) => [
-    {
-        color: "#958DF1",
-        onClick: () => editor.chain().focus().setColor('#958DF1').run(),
-        className: editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : '',
-        dataTestid: "setPurple"
-    },
-    {
-        color: '#F98181',
-        onClick: () => editor.chain().focus().setColor('#F98181').run(),
-        className: editor.isActive('textStyle', { color: '#F98181' }) ? 'is-active' : '',
-        dataTestid: "setRed"
-    },
-    {
-        color: '#FBBC88',
-        onClick: () => editor.chain().focus().setColor('#FBBC88').run(),
-        className: editor.isActive('textStyle', { color: '#FBBC88' }) ? 'is-active' : '',
-        dataTestid: "setOrange"
-    },
-    {
-        color: '#FAF594',
-        onClick: () => editor.chain().focus().setColor('#FAF594').run(),
-        className: editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : '',
-        dataTestid: "setYellow"
-    },
-    {
-        color: '#70CFF8',
-        onClick: () => editor.chain().focus().setColor('#70CFF8').run(),
-        className: editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : '',
-        dataTestid: "setBlue"
-    },
-    {
-        color: '#94FADB',
-        onClick: () => editor.chain().focus().setColor('#94FADB').run(),
-        className: editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : '',
-        dataTestid: "setTeal"
-    },
-    {
-        color: '#B9F18D',
-        onClick: () => editor.chain().focus().setColor('#B9F18D').run(),
-        className: editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : '',
-        dataTestid: "setGreen"
-    },
-    {
-        color: '',
-        onClick: () => editor.chain().focus().unsetColor().run(),
-        className: editor.isActive('textStyle', { color: '' }) ? 'is-active' : '',
-        dataTestid: "unsetColor"
-    },
+// export const ColorStyle = (editor: Editor) => [
+//     {
+//         color: "#8B5CF6",
+//         onClick: () => editor.chain().focus().setColor('#8B5CF6').run(),
+//         className: editor.isActive('textStyle', { color: '#8B5CF6' }) ? 'is-active' : '',
+//         dataTestid: "setPurple"
+//     },
+//     {
+//         color: '#EF4444',
+//         onClick: () => editor.chain().focus().setColor('#EF4444').run(),
+//         className: editor.isActive('textStyle', { color: '#EF4444' }) ? 'is-active' : '',
+//         dataTestid: "setRed"
+//     },
+//     {
+//         color: '#F97316',
+//         onClick: () => editor.chain().focus().setColor('#F97316').run(),
+//         className: editor.isActive('textStyle', { color: '#F97316' }) ? 'is-active' : '',
+//         dataTestid: "setOrange"
+//     },
+//     {
+//         color: '#FAF594',
+//         onClick: () => editor.chain().focus().setColor('#FAF594').run(),
+//         className: editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : '',
+//         dataTestid: "setYellow"
+//     },
+//     {
+//         color: '#70CFF8',
+//         onClick: () => editor.chain().focus().setColor('#70CFF8').run(),
+//         className: editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : '',
+//         dataTestid: "setBlue"
+//     },
+//     {
+//         color: '#94FADB',
+//         onClick: () => editor.chain().focus().setColor('#94FADB').run(),
+//         className: editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : '',
+//         dataTestid: "setTeal"
+//     },
+//     {
+//         color: '#B9F18D',
+//         onClick: () => editor.chain().focus().setColor('#B9F18D').run(),
+//         className: editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : '',
+//         dataTestid: "setGreen"
+//     },
+//     {
+//         color: 'currentColor',
+//         onClick: () => editor.chain().focus().unsetColor().run(),
+//         className: editor.isActive('textStyle', { color: '' }) ? 'is-active' : '',
+//         dataTestid: "unsetColor"
+//     },
+// ]
+
+export const colorValue = [
+    'currentColor',
+    '#EF4444',
+    '#F97316',
+    '#F59E0B',
+    '#84CC16',
+    '#10B981',
+    '#06B6D4',
+    '#3B82F6',
+    '#6366F1',
+    '#8B5CF6',
+    '#EC4899',
+];
+
+export const colorsCursor = [
+    '#958DF1',
+    '#F98181',
+    '#FBBC88',
+    '#FAF594',
+    '#70CFF8',
+    '#94FADB',
+    '#B9F18D',
+    '#C3E2C2',
+    '#EAECCC',
+    '#AFC8AD',
+    '#EEC759',
+    '#9BB8CD',
+    '#FF90BC',
+    '#FFC0D9',
+    '#DC8686',
+    '#7ED7C1',
+    '#F3EEEA',
+    '#89B9AD',
+    '#D0BFFF',
+    '#FFF8C9',
+    '#CBFFA9',
+    '#9BABB8',
+    '#E3F4F4',
 ]
+
+export const names = [
+    'Lea Thompson',
+    'Cyndi Lauper',
+    'Tom Cruise',
+    'Madonna',
+    'Jerry Hall',
+    'Joan Collins',
+    'Winona Ryder',
+    'Christina Applegate',
+    'Alyssa Milano',
+    'Molly Ringwald',
+    'Ally Sheedy',
+    'Debbie Harry',
+    'Olivia Newton-John',
+    'Elton John',
+    'Michael J. Fox',
+    'Axl Rose',
+    'Emilio Estevez',
+    'Ralph Macchio',
+    'Rob Lowe',
+    'Jennifer Grey',
+    'Mickey Rourke',
+    'John Cusack',
+    'Matthew Broderick',
+    'Justine Bateman',
+    'Lisa Bonet',
+  ]

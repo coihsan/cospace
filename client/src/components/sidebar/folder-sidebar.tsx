@@ -51,7 +51,7 @@ const FolderSidebar = ({
         </SidebarGroupAction>
         <CollapsibleContent>
           <SidebarMenu>
-            {projects.map((item) => (
+            {projects.slice(0, 10).map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton asChild>
                   <a href={item.url}>

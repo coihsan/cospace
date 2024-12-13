@@ -8,7 +8,7 @@ const FooterEditor = () => {
         <RefreshCcw className="size-4" />
         <span className="text-[10px]">Last updated : 31 Maret 2019</span>
       </div>
-      <OnlineSystemStatus />
+      <OnlineSystemStatus status={"connecting"} />
     </footer>
   )
 }

@@ -1,10 +1,18 @@
+import { type ConnectionStatus } from '@/hooks/use-connection-status';
 import PulseIndicator from "./pulse-indicator"
+import React from 'react';
 
-const OnlineSystemStatus = () => {
+
+interface ConnectionIndicatorProps {
+  status: ConnectionStatus;
+}
+const OnlineSystemStatus : React.FC<ConnectionIndicatorProps> = ({ status }) => {
     return (
-        <div className="flex items-center gap-3">
-            <PulseIndicator />
-            <span className="text-xs">Online</span>
+        <div className="flex items-center gap-2">
+            <PulseIndicator status={status} />
+            <span className="text-xs">
+                {status === 'connected' ? 'Connected' : 'Offline'}
+            </span>
         </div>
     )
 }

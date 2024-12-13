@@ -15,7 +15,7 @@ const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
-        setEditable : (state, action) => {
+        setEditable: (state, action : PayloadAction<boolean>) => {
             state.editable = action.payload
         },
         setActiveMenu: (state, action: PayloadAction<MenuType>) => {
