@@ -17,4 +17,4 @@ export class Cospace extends Dexie {
   };
 }
 
-export const daxie = new Cospace();
+export const dexie = new Cospace();

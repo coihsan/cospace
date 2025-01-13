@@ -1,6 +1,7 @@
 import { Content } from "@tiptap/react";
 import { MenuType } from "./enums";
 import { EntityState } from "@reduxjs/toolkit";
+import { sync } from "@/lib/redux/slice/sync.slice"
 
 type Role = "owner" | "canEdit" | "viewOnly";
 
@@ -17,22 +18,28 @@ export interface User {
     storageType: storageType;
     color?: string
 }
+export interface NotePermission {
+    userId: string[];
+    permission: 'canEdit' | 'viewOnly';
+  }
 
 export interface NoteItem {
     id: string;
     title: string;
     content: Content;
+    isPublic?: boolean;
     lastModified: string;
     tagsId?: string;
     trash: boolean;
     favorite: boolean;
     folderId?: string;
     version?: string[];
-    user: User[];
+    user: User | User[];
     syncedAt?: Date;
     roomId?: string;
-    ownerId: string;
-    organizationId?: string;
+    ownerId?: string;
+    syncStatus?: 'pending' | 'synced' | 'error';
+    collaborators?: NotePermission[];
 }
 
 export interface TagItem {
@@ -119,6 +126,23 @@ export interface AuthState {
     isAuthenticated: boolean
     error: string | null
 }
+
+export interface SyncState {
+    syncing: boolean
+    lastSynced: string
+    error: string
+    pendingSync: boolean
+}
+
+export interface SyncPayload {
+    folders: FolderItem[]
+    notes: NoteItem[]
+  }
+  
+  export interface SyncAction {
+    type: typeof sync.type
+    payload: SyncPayload
+  }
 
 export interface RootState {
     noteState: NoteState;

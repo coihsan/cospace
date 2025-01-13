@@ -1,16 +1,12 @@
-import { BubbleMenu, Editor } from "@tiptap/react"
-import React from "react"
+import { BubbleMenu, type Editor } from '@tiptap/react'
 
-interface Props {
+interface BubbleMenuToolbarProps {
     editor: Editor | null
     children: React.ReactNode
 }
 
-const UseBubbleMenu : React.FC<Props> = ({
-    editor,
-    children,
-}) =>{
-    return(
+const BubbleMenuTiptap: React.FC<BubbleMenuToolbarProps> = ({ editor, children }) => {
+    return (
         <>
             {editor &&
                 <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
@@ -22,4 +18,4 @@ const UseBubbleMenu : React.FC<Props> = ({
         </>
     )
 }
-export default UseBubbleMenu
+export default BubbleMenuTiptap

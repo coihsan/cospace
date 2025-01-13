@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { LabelText } from "@/lib/label-text"
 import { Copy, Ellipsis, Trash, UserRound } from "lucide-react"
-import ButtonAction from "../global/button-action"
+import ButtonAction from "../primitive/button-action"
 
 const EditorOptions: React.FC = () => {
 

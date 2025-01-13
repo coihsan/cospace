@@ -23,11 +23,11 @@ interface EditorProps {
     titleContent: string;
     titleChange: ChangeEventHandler<HTMLInputElement>;
     onChange: (content: string) => void;
-    noteId: string;
+    noteId: string | undefined;
 }
 
 const TiptapEditor: React.FC<EditorProps> = ({ initialContent, titleContent, titleChange, onChange, noteId }) => {
-    const { ydoc, provider } = useYjsProviders(noteId);
+    // const { ydoc, provider } = useYjsProviders(noteId);
     const getRandomColor = () => getRandomElement(colorsCursor)
     const getRandomName = () => getRandomElement(names)
     

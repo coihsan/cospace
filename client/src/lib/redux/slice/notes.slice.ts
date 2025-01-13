@@ -1,4 +1,4 @@
-import { daxie } from "@/lib/daxie";
+import { dexie } from "@/lib/dexie";
 import { NoteItem, NoteState, RootState } from "@/lib/types";
 import { createSlice, createAsyncThunk, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit"
 
@@ -7,18 +7,18 @@ export const notesAdapter = createEntityAdapter<NoteItem>({
   });
 
 export const fetchPublicNotes = createAsyncThunk('publicNotes/fetch', async () => {
-    return await daxie.notes.toArray();
+    return await dexie.notes.toArray();
 });
 
 export const addPublicNote = createAsyncThunk('publicNotes/add', async (note: NoteItem) => {
-    const id = await daxie.notes.add(note);
+    const id = await dexie.notes.add(note);
     return { ...note, id };
 });
 
 export const getActivePublicNote = createAsyncThunk(
     'publicNotes/get',
     async (noteId: string) => {
-        const note = await daxie.notes.get(noteId);
+        const note = await dexie.notes.get(noteId);
         if (note) {
             return note.content;
         } else {
@@ -61,6 +61,10 @@ const noteSlice = createSlice({
         },
         setSearchValue: (state, action: PayloadAction<string>) => {
             state.searchValue = action.payload;
+        },
+        addNote: (state, action: PayloadAction<NoteItem>) => {
+            state.activeNoteId = action.payload.id;
+            notesAdapter.addOne(state, action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -79,7 +83,8 @@ export const {
     setActiveNoteId,
     setActiveFolderId,
     setSelectedNotesIds,
-    setSearchValue
+    setSearchValue,
+    addNote
  } = noteSlice.actions;
 export default noteSlice.reducer;
 

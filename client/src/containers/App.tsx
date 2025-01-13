@@ -10,9 +10,11 @@ import { ThemeProvider } from "@/providers/theme-provider"
 import { useAppSelector } from "@/lib/redux/store"
 import { getNotes } from "@/lib/redux/selector"
 import EmptyEditor from "@/components/editor/empty-editor"
+import { useParams } from "react-router"
 
 const App = () => {
   const { selectedNotesIds } = useAppSelector(getNotes)
+  const { noteId } = useParams()
   return (
     <ThemeProvider>
       <ModalProvider>
@@ -32,7 +34,7 @@ const App = () => {
                     throw new Error("Function not implemented.")
                   }} onChange={function (content: string): void {
                     throw new Error("Function not implemented.")
-                  }} noteId={""} />
+                  }} noteId={noteId} />
                 </>
               ) : (
                 <EmptyEditor />

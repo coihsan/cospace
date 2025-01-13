@@ -1,71 +1,72 @@
 import { useState } from "react";
 import { useConnectionStatus } from "./use-connection-status";
 import useOnlineStatus from "./use-online-status";
-import { daxie } from "@/lib/daxie";
+import { dexie } from "@/lib/dexie";
+import { NoteItem, FolderItem } from "@/lib/types";
+import { useOnlineSync } from "./use-online-sync";
+import { v4 } from "uuid"
+import { useAppDispatch } from "@/lib/redux/store";
+import { addNote } from "@/lib/redux/slice/notes.slice";
 
 type useOfflineSyncProps = {
-    noteId: string
+  noteId: string
 }
-const useOfflineSync = ({ noteId }: useOfflineSyncProps) => {
-    const [localNote, setLocalNote] = useState(null);
-    const [isSyncing, setIsSyncing] = useState(false);
-    const isOnline = useOnlineStatus();
 
-    // Fungsi untuk menyimpan perubahan ke IndexedDB
-  const saveLocally = async (changes) => {
+type NotesChanges = Pick<NoteItem, "id" | "content" | "title">
+
+export const useOfflineSync = ({ noteId }: useOfflineSyncProps) => {
+  const isOnline = useOnlineStatus();
+  const { syncToServer } = useOnlineSync()
+  const dispatch = useAppDispatch();
+
+  const createInitialNote = (): NoteItem => {
+    return {
+      id: v4(),
+      content: '',
+      title: '',
+      lastModified: '',
+      trash: false,
+      favorite: false,
+      user: [],
+      ownerId: '',
+      syncStatus: 'pending',
+      collaborators: []
+    };
+  };
+
+  const createNewNote = () => {
+    const newNote = createInitialNote();
+    dispatch(addNote(newNote))
+  }
+
+  const saveNoteToLocaly = async (notes: NotesChanges): Promise<void> => {
     try {
-      // Simpan perubahan ke tabel notes
-      await daxie.notes.put({
-        id: noteId,
-        ...changes,
-        lastModified: new Date().toISOString(),
-        syncStatus: 'pending'
-      });
-
-      // Tambahkan ke antrian perubahan
-      await daxie.pendingChanges.add({
-        noteId,
-        changes,
-        timestamp: new Date().toISOString()
-      });
-
-      setLocalNote(await daxie.notes.get(noteId));
+      await dexie.notes.put({
+        id: notes.id,
+        content: notes.content,
+        title: notes.title,
+        lastModified: "",
+        trash: false,
+        favorite: false,
+        user: [],
+        ownerId: "",
+        syncStatus: 'pending',
+        collaborators: []
+      })
     } catch (error) {
       console.error('Error saving locally:', error);
     }
-  };
+  }
 
-  // Fungsi untuk sync ke server
-  const syncToServer = async () => {
-    if (!isOnline) return;
-
-    setIsSyncing(true);
-    try {
-      // Ambil semua perubahan yang pending
-      const pendingChanges = await daxie.pendingChanges
-        .where('noteId')
-        .equals(noteId)
-        .toArray();
-
-      if (pendingChanges.length > 0) {
-        // Sync ke server
-        await syncNotesToServer(noteId, pendingChanges);
-
-        // Hapus perubahan yang sudah di-sync
-        await daxie.pendingChanges
-          .where('noteId')
-          .equals(noteId)
-          .delete();
-
-        // Update status sync di notes
-        await daxie.notes
-          .where('id')
-          .equals(noteId)
-          .modify({ syncStatus: 'synced' });
-      }
-    } catch (error) {
-      console.error('Error syncing to server:', error);
-    } finally {
-      setIsSyncing(false);
+  const handleNoteChange = async (changes: NotesChanges): Promise<void> => {
+    await saveNoteToLocaly(changes);
+    if (isOnline) {
+      syncToServer();
     }
+  };
+  
+  return {
+    handleNoteChange,
+    createNewNote
+  }
 }

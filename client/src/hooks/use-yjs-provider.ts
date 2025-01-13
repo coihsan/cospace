@@ -4,19 +4,19 @@ import { WebrtcProvider } from 'y-webrtc';
 import { WebsocketProvider } from 'y-websocket';
 import { IndexeddbPersistence } from 'y-indexeddb';
 
-export function useYjsProviders(documentId: string) {
+export function useYjsProviders(noteId: string) {
   const ydoc = useMemo(() => new Y.Doc(), []);
   const provider = useMemo(
-    () => new WebsocketProvider('ws://localhost:5173', documentId, ydoc),
-    [documentId, ydoc]
+    () => new WebsocketProvider('ws://localhost:5173', noteId, ydoc),
+    [noteId, ydoc]
   );
   const webrtcProvider = useMemo(
-    () => new WebrtcProvider(documentId, ydoc),
-    [documentId, ydoc]
+    () => new WebrtcProvider(noteId, ydoc),
+    [noteId, ydoc]
   );
   const indexeddbProvider = useMemo(
-    () => new IndexeddbPersistence(documentId, ydoc),
-    [documentId, ydoc]
+    () => new IndexeddbPersistence(noteId, ydoc),
+    [noteId, ydoc]
   );
 
   useEffect(() => {

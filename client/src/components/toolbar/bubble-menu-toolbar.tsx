@@ -1,6 +1,6 @@
-import UseBubbleMenu from "@/hooks/use-bubblemenu"
 import { Editor } from "@tiptap/react"
 import React from "react"
+import BubbleMenuTiptap from "../primitive/bubble-menu-tiptap"
 
 interface Props {
     editor: Editor | null
@@ -10,9 +10,9 @@ const BubbleMenuToolbar : React.FC<Props> = ({
     editor,
 }) =>{
     return(
-        <UseBubbleMenu editor={editor}>
+        <BubbleMenuTiptap editor={editor}>
             hello
-        </UseBubbleMenu>
+        </BubbleMenuTiptap>
     )
 }
 export default BubbleMenuToolbar
