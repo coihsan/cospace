@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useConnectionStatus } from "./use-connection-status";
 import useOnlineStatus from "./use-online-status";
-import { dexie } from "@/lib/dexie";
+import { dexie } from "@/lib/db/dexie";
 import { NoteItem, FolderItem } from "@/lib/types";
 import { useOnlineSync } from "./use-online-sync";
 import { v4 } from "uuid"

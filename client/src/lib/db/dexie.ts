@@ -1,5 +1,5 @@
 import Dexie, { Table } from 'dexie';
-import { FolderItem, NoteItem, TagItem } from './types';
+import { FolderItem, NoteItem, TagItem } from '../types';
 
 export class Cospace extends Dexie {
   notes!: Table<NoteItem, string>;

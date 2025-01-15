@@ -1,21 +1,23 @@
-import { dexie } from "@/lib/dexie";
+import { dexie } from "@/lib/db/dexie";
 import { NoteItem, NoteState, RootState } from "@/lib/types";
-import { createSlice, createAsyncThunk, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit"
+import { createAppAsyncThunk } from "../thunk";
 
 export const notesAdapter = createEntityAdapter<NoteItem>({
     sortComparer: (a, b) => b.lastModified.localeCompare(a.lastModified),
   });
 
-export const fetchPublicNotes = createAsyncThunk('publicNotes/fetch', async () => {
+export const fetchAllNotes = createAppAsyncThunk('publicNotes/fetch', async () => {
     return await dexie.notes.toArray();
 });
 
-export const addPublicNote = createAsyncThunk('publicNotes/add', async (note: NoteItem) => {
-    const id = await dexie.notes.add(note);
-    return { ...note, id };
+export const createNewNote = createAppAsyncThunk('publicNotes/add', async (note: NoteItem) => {
+    const noteWithPendingStatus = {...note, syncStatus: 'pending' as const};
+    const id = await dexie.notes.add(noteWithPendingStatus);
+    return { ...noteWithPendingStatus, id };
 });
 
-export const getActivePublicNote = createAsyncThunk(
+export const getActiveNoteId = createAppAsyncThunk(
     'publicNotes/get',
     async (noteId: string) => {
         const note = await dexie.notes.get(noteId);
@@ -69,12 +71,15 @@ const noteSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchPublicNotes.fulfilled, (state, action) => {
+            .addCase(fetchAllNotes.fulfilled, (state, action) => {
                 notesAdapter.setAll(state, action.payload);
             })
-            .addCase(addPublicNote.fulfilled, (state, action) => {
-                notesAdapter.addOne(state, action.payload)
-            });
+            .addCase(createNewNote.fulfilled, (state, action) => {
+                notesAdapter.addOne(state, action.payload);
+            })
+            .addCase(getActiveNoteId.fulfilled, ( state, action ) => {
+                state.activeNoteId = action.payload as string;
+            })
     },
 })
 

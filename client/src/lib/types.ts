@@ -3,9 +3,7 @@ import { MenuType } from "./enums";
 import { EntityState } from "@reduxjs/toolkit";
 import { sync } from "@/lib/redux/slice/sync.slice"
 
-type Role = "owner" | "canEdit" | "viewOnly";
-
-type storageType = 'local' | 'cloud';
+export type Role = "owner" | "canEdit" | "viewOnly";
 
 // ================ RELATIONS TYPE ================
 
@@ -15,13 +13,12 @@ export interface User {
     username: string;
     isOnline?: boolean;
     role?: Role;
-    storageType: storageType;
     color?: string
 }
 export interface NotePermission {
-    userId: string[];
-    permission: 'canEdit' | 'viewOnly';
-  }
+    userId: string;
+    permission: Role;
+}
 
 export interface NoteItem {
     id: string;
@@ -55,6 +52,9 @@ export interface FolderItem {
     name: string,
     createdAt: string,
     lastUpdated: string,
+    isSharing?: boolean,
+    ownerId?: string,
+    collaborators?: NotePermission[]
 }
 
 export interface collaborationSessions {
@@ -137,12 +137,12 @@ export interface SyncState {
 export interface SyncPayload {
     folders: FolderItem[]
     notes: NoteItem[]
-  }
-  
-  export interface SyncAction {
+}
+
+export interface SyncAction {
     type: typeof sync.type
     payload: SyncPayload
-  }
+}
 
 export interface RootState {
     noteState: NoteState;
