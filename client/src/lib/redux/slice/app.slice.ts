@@ -4,7 +4,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export const initialState : AppState = {
     editable: false,
-    darkMode: false,
     loading: false,
     status: "idle",
     error: null,

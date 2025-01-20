@@ -28,34 +28,35 @@ interface EditorProps {
 }
 
 const TiptapEditor: React.FC<EditorProps> = ({ initialContent, titleContent, titleChange, onChange, noteId, permission }) => {
-    const { ydoc, provider } = useYjsProviders(noteId);
+    // const { ydoc, provider } = useYjsProviders(noteId);
     const getRandomColor = () => getRandomElement(colorsCursor)
     const getRandomName = () => getRandomElement(names)
 
-const editor = useEditor({
-    extensions: [
-        StarterKit,
-        TextStyle,
-        Color,
-        TextAlign.configure({
-            types: ['heading, paragraph'],
-        }),
-        Placeholder.configure({
-            placeholder: () => {
-                return 'Write something...'
-            },
-        }),
-        Collaboration.configure({
-            document: ydoc,
-        }),
-        CollaborationCursor.configure({
-            provider,
-            user: {
-                name: 'Cyndi Lauper',
-                color: '#f783ac',
-            },
-        }),
-    ],
+
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            TextStyle,
+            Color,
+            TextAlign.configure({
+                types: ['heading, paragraph'],
+            }),
+            Placeholder.configure({
+                placeholder: () => {
+                    return 'Write something … It’ll be shared with everyone else looking at this example.'
+                },
+            }),
+            // Collaboration.configure({
+            //     document: ydoc,
+            // }),
+            // CollaborationCursor.configure({
+            //     provider,
+            //     user: {
+            //         name: 'Cyndi Lauper',
+            //         color: '#f783ac',
+            //     },
+            // }),
+        ],
     editable: permission.permission === 'canEdit' || 'owner' ? true : false,
     autofocus: true,
     content: initialContent,

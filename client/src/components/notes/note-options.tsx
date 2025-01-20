@@ -2,9 +2,22 @@ import React from "react"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, CornerUpRight, Folder, StarOff, Link, Trash2 } from "lucide-react"
 import { SidebarMenuAction, useSidebar } from "../ui/sidebar"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
+import { removeFolder, selectAllFolder } from "@/lib/redux/slice/folder.slice"
+import { moveNoteToTrash } from "@/lib/redux/slice/notes.slice"
 
-const NoteOptios: React.FC = () => {
+interface NoteOptiosProps {
+    noteId: string | undefined
+}
+
+const NoteOptios: React.FC<NoteOptiosProps> = ({ noteId }) => {
     const { isMobile } = useSidebar()
+    const folder = useAppSelector(selectAllFolder)
+    const dispatch = useAppDispatch()
+
+    const handleMoveNoteToTrash = (noteId: string, value: boolean) => {
+        dispatch(moveNoteToTrash({noteId, value}))
+    }
 
     return (
         <DropdownMenu>
@@ -43,7 +56,7 @@ const NoteOptios: React.FC = () => {
                     <span>Copy Link</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600 dark:text-red-500">
+                <DropdownMenuItem onClick={() => handleMoveNoteToTrash(noteId as string, true)} className="text-red-600 dark:text-red-500">
                     <Trash2 />
                     <span>Move to trash</span>
                 </DropdownMenuItem>

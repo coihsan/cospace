@@ -1,15 +1,30 @@
 import { dexie } from "@/lib/db/dexie";
-import { NoteItem, NoteState, RootState } from "@/lib/types";
-import { createSlice, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit"
+import { FolderItem, NoteItem, NoteState, RootState } from "@/lib/types";
+import { createSlice, PayloadAction, createEntityAdapter, Update } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "../thunk";
 
 export const notesAdapter = createEntityAdapter<NoteItem>({
-    sortComparer: (a, b) => b.lastModified.localeCompare(a.lastModified),
+    sortComparer: (a, b) => {
+      if (typeof a.lastUpdated === 'string' && typeof b.lastUpdated === 'string') {
+        return b.lastUpdated.localeCompare(a.lastUpdated);
+      } else {
+        return 0;
+      }
+    }
   });
 
-export const fetchAllNotes = createAppAsyncThunk('publicNotes/fetch', async () => {
-    return await dexie.notes.toArray();
-});
+export const fetchAllNotes = createAppAsyncThunk<NoteItem[], void, { rejectValue: string }>(
+    'notes/fetchAllNotes',
+    async (_, { rejectWithValue }) => {
+      try {
+        const notes = await dexie.notes.toArray();
+        return notes;
+      } catch (error) {
+        console.log('Failed to fetch all notes');
+        return rejectWithValue('Failed to fetch notes');
+      }
+    }
+  );
 
 export const createNewNote = createAppAsyncThunk('publicNotes/add', async (note: NoteItem) => {
     const noteWithPendingStatus = {...note, syncStatus: 'pending' as const};
@@ -28,6 +43,22 @@ export const getActiveNoteId = createAppAsyncThunk(
         }
     }
 )
+
+export const moveNoteToTrash = createAppAsyncThunk<Update<NoteItem, string>, { noteId: string; value: boolean }>(
+    'notes/deleteNotes',
+    async (data, { rejectWithValue }) => {
+      try {
+        const updates: Partial<NoteItem> = { trash: data.value };
+        if (data.value) {
+          updates.favorite = false;
+        }
+        await dexie.notes.update(data.noteId, updates);
+        return { id: data.noteId, changes: updates };
+      } catch (error) {
+        return rejectWithValue(error as string);
+      }
+    }
+  );
 
 export const initialState: NoteState = notesAdapter.getInitialState({
     editable: false,
@@ -72,13 +103,23 @@ const noteSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchAllNotes.fulfilled, (state, action) => {
-                notesAdapter.setAll(state, action.payload);
+                if(action.payload){
+                    notesAdapter.setAll(state, action.payload)
+                } else{
+                    notesAdapter.setAll(state, [])
+                    state.error = 'Failed to fetch notes';
+                }
+                state.loading = true
             })
             .addCase(createNewNote.fulfilled, (state, action) => {
                 notesAdapter.addOne(state, action.payload);
             })
             .addCase(getActiveNoteId.fulfilled, ( state, action ) => {
                 state.activeNoteId = action.payload as string;
+            })
+            .addCase(moveNoteToTrash.fulfilled, (state, action) => {
+                state.status = 'success',
+                notesAdapter.updateOne(state, action.payload)
             })
     },
 })

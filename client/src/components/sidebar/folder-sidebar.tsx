@@ -1,61 +1,27 @@
-import {
-  ChevronDown,
-  Folder,
-  Forward,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Trash2,
-} from "lucide-react"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuAction,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar"
+import React, { useRef, useState } from 'react'
+import { ChevronDown, Plus } from "lucide-react"
+import { SidebarGroup, SidebarGroupAction, SidebarGroupLabel, useSidebar } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
-import { getApp, getNotes } from "@/lib/redux/selector"
-import { setActiveMenu } from "@/lib/redux/slice/app.slice"
-import { setActiveFolderId } from "@/lib/redux/slice/notes.slice"
+import { getApp, getFolder, getNotes } from "@/lib/redux/selector"
+import { FolderItem } from "@/lib/types"
+import FolderItems from '../folders/folder-item'
+import { setFolderVisibility } from '@/lib/redux/slice/folder.slice'
 
-const FolderSidebar = ({
-  folder,
-}: {
-  folder: {
-    id: string;
-    name: string;
-    url: string;
-  }[]
-}) => {
-  const { isMobile, setOpen } = useSidebar()
-  const dispatch = useAppDispatch()
+interface FolderSidebarProps {
+  folder: FolderItem[]
+}
 
-  const { activeMenu } = useAppSelector(getApp)
-  const { activeFolderId } = useAppSelector(getNotes)
+const FolderSidebar: React.FC<FolderSidebarProps> = ({ folder }) => {
+  const [isOpen, setIsOpen] = React.useState(true)
 
-  const handleActiveFolderId = (folderId: string) => {
-    try {
-      dispatch(setActiveFolderId(folderId))
-      setOpen(true)
-    } catch (error) {
-      console.log(error)
-    }
+  const handleNewFolder = (value: boolean) => { 
+    setFolderVisibility(value); 
+    setIsOpen(true)
   }
 
   return (
-    <Collapsible defaultOpen className="group/collapsible">
+    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="group/collapsible">
       <SidebarGroup className="group-data-[collapsible=icon]:hidden">
         <SidebarGroupLabel asChild>
           <CollapsibleTrigger>
@@ -63,55 +29,11 @@ const FolderSidebar = ({
             Folder
           </CollapsibleTrigger>
         </SidebarGroupLabel>
-        <SidebarGroupAction title="Add Folder">
+        <SidebarGroupAction onClick={() => handleNewFolder(true)} title="Add Folder">
           <Plus /> <span className="sr-only">Add Folder</span>
         </SidebarGroupAction>
         <CollapsibleContent>
-          <SidebarMenu>
-            {folder.slice(0, 10).map((item) => (
-              <SidebarMenuItem key={item.name}>
-                <SidebarMenuButton onClick={() => handleActiveFolderId(item.id)} asChild>
-                  <a href={item.url}>
-                    <Folder />
-                    <span>{item.name}</span>
-                  </a>
-                </SidebarMenuButton>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <SidebarMenuAction showOnHover>
-                      <MoreHorizontal />
-                      <span className="sr-only">More</span>
-                    </SidebarMenuAction>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="w-48 rounded-lg"
-                    side={isMobile ? "bottom" : "right"}
-                    align={isMobile ? "end" : "start"}
-                  >
-                    <DropdownMenuItem>
-                      <Pencil className="text-muted-foreground" />
-                      <span>Rename Folder</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Forward className="text-muted-foreground" />
-                      <span>Share Folder</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-red-500 dark:text-red-600">
-                      <Trash2 />
-                      <span>Delete Folder</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </SidebarMenuItem>
-            ))}
-            <SidebarMenuItem>
-              <SidebarMenuButton className="text-sidebar-foreground/70">
-                <MoreHorizontal className="text-sidebar-foreground/70" />
-                <span className="text-xs">More</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <FolderItems folder={folder} />
         </CollapsibleContent>
       </SidebarGroup></Collapsible>
   )

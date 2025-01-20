@@ -9,9 +9,9 @@ export class Cospace extends Dexie {
   constructor() {
     super('cospace');
     this.version(1).stores({
-      notes: '++id, content, title, favorite, lastUpdated, trash, folderId, user, roomId, ownerId, organizationId',
-      folders: '++id, name, icon, lastUpdated',
-      tags: '++id, name, color, lastUpdated',
+      notes: '++id, title, content, isPublic, lastUpdated, tagsId, trash, favorite, folderId, version, user, syncedAt, roomId, ownerId, syncStatus, collaborators',
+      folders: '++id, name, createdAt, lastUpdated, isSharing, ownerId, collaborators',
+      tags: '++id, name, color, createdAt, lastUpdated',
       pendingChanges: '++id, noteId, changes, timestamp'
     });
   };

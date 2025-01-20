@@ -25,7 +25,7 @@ export interface NoteItem {
     title: string;
     content: Content;
     isPublic?: boolean;
-    lastModified: string;
+    lastUpdated: string;
     tagsId?: string;
     trash: boolean;
     favorite: boolean;
@@ -94,20 +94,23 @@ export interface NoteState extends EntityState<NoteItem, string> {
     editable: boolean,
     loading: boolean;
     status: Status;
-    error: null;
+    error: null | string | undefined;
 }
 
 export interface FolderState extends EntityState<FolderItem, string> {
-    activeFolderId: string;
+    editingFolderId: {
+        id: string;
+        name: string;
+    }
     loading: boolean;
     status: Status;
     error: null;
+    isVisible: boolean;
 }
 
 export interface AppState {
     editable: boolean;
     activeMenu: MenuType;
-    darkMode: boolean;
     loading: boolean;
     status: Status;
     error: null;
