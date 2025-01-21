@@ -2,7 +2,6 @@ import { FolderItem, FolderState, NoteItem, RootState } from "@/lib/types";
 import { createSlice, createEntityAdapter, Update, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "../thunk";
 import { dexie } from "@/lib/db/dexie";
-import { set } from "date-fns";
 
 export const folderAdapter = createEntityAdapter<FolderItem>({
     sortComparer: (a, b) => {

@@ -36,7 +36,7 @@ const FavoritesSidebar = ({ favorites }: {
                                         <span>{item.name}</span>
                                     </a>
                                 </SidebarMenuButton>
-                                <NoteOptios />
+                                <NoteOptios noteId={undefined} />
                             </SidebarMenuItem>
                         ))}
                         <SidebarMenuItem>

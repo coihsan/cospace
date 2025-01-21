@@ -1,5 +1,5 @@
 import { FolderItem } from "@/lib/types"
-import React, { FormEvent, useRef, useTransition, useState } from "react"
+import React, { FormEvent, useRef, useTransition } from "react"
 import FolderOptions from "./folder-options"
 import { Folder, X, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,8 @@ import { setActiveFolderId } from "@/lib/redux/slice/notes.slice"
 import { currentItem } from "@/lib/helpers"
 import { createNewFolder, renameFolder, removeFolder, setFolderVisibility } from "@/lib/redux/slice/folder.slice"
 import { v4 } from "uuid"
+import { setActiveMenu } from "@/lib/redux/slice/app.slice"
+import { MenuType } from "@/lib/enums"
 
 interface FolderItemsProps {
     folder: FolderItem[]
@@ -32,6 +34,7 @@ const FolderItems: React.FC<FolderItemsProps> = ({ folder }) => {
     const handleActiveFolderId = (folderId: string) => {
         try {
             dispatch(setActiveFolderId(folderId))
+            dispatch(setActiveMenu(MenuType.FOLDER))
             setOpen(true)
         } catch (error) {
             console.log(error)

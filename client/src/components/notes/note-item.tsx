@@ -24,7 +24,7 @@ const NoteItems: React.FC<NoteItemProps> = ({ notes, ...props }) => {
     const folder = useAppSelector(selectAllFolder)
     const dispatch = useAppDispatch()
 
-    const allNotes = notes.map((item) => item)
+    const allNotes = notes.filter((item) => item && !item.trash)
     const favorites = notes.filter((item) => item.favorite === true && item.trash === false)
     const trash = notes.filter((item) => item.trash === true)
     const notesInFolder = notes.filter((item) => item.folderId !== null)
@@ -60,15 +60,15 @@ const NoteItems: React.FC<NoteItemProps> = ({ notes, ...props }) => {
                     <div
                         {...props}
                         className={cn(`flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground`,
-                            (activeNoteId === `${item.id}` ? "bg-sidebar-accent" : "")
-                        )}
-                    >
+                            (activeNoteId === `${item.id}` ? "bg-sidebar-accent" : ""))}>
                         <div className="flex flex-col items-start gap-2">
-                            <div className="flex w-full items-center gap-2">
-                                <Badge>{item.ownerId}</Badge>
+                            <div className="flex w-full items-center justify-center gap-2">
+                                <Badge variant={'outline'}>{item.ownerId}</Badge>
                                 <span className="ml-auto text-xs text-muted-foreground">{item.lastUpdated}</span>
                             </div>
-                            <span className="font-medium">{item.title}</span>
+                            <span className="font-medium">
+                                {getNotesTitle(item.title)}
+                            </span>
                             <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
                                 {getNotesTitle(item.content)}
                             </span>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, ChangeEventHandler } from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
@@ -19,10 +19,10 @@ import { colorsCursor, names } from '@/lib/const'
 import { NotePermission } from '@/lib/types'
 
 interface EditorProps {
-    initialContent: string;
+    initialContent: Content;
     titleContent: string;
     titleChange: ChangeEventHandler<HTMLInputElement>;
-    onChange: (content: string) => void;
+    onChange: (content: Content) => void;
     noteId: string;
     permission: NotePermission;
 }

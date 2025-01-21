@@ -1,9 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { ChevronDown, Plus } from "lucide-react"
-import { SidebarGroup, SidebarGroupAction, SidebarGroupLabel, useSidebar } from "@/components/ui/sidebar"
+import { SidebarGroup, SidebarGroupAction, SidebarGroupLabel } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
-import { getApp, getFolder, getNotes } from "@/lib/redux/selector"
 import { FolderItem } from "@/lib/types"
 import FolderItems from '../folders/folder-item'
 import { setFolderVisibility } from '@/lib/redux/slice/folder.slice'

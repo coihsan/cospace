@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Command, Plus } from "lucide-react"
+import { Command, Plus, Trash } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -21,43 +21,51 @@ import { LabelText } from "@/lib/label-text"
 import FolderSidebar from "./folder-sidebar"
 import UserButton from "./user-button"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
-import { getApp } from "@/lib/redux/selector"
+import { getApp, getNotes } from "@/lib/redux/selector"
 import { setActiveMenu } from "@/lib/redux/slice/app.slice"
 import { selectAllFolder } from "@/lib/redux/slice/folder.slice"
 import NoteItems from "../notes/note-item"
-import { createNewNote, selectAllNotes } from "@/lib/redux/slice/notes.slice"
+import { createNewNote, selectAllNotes, setActiveNoteId } from "@/lib/redux/slice/notes.slice"
 import { NoteItem } from "@/lib/types"
 import { v4 } from "uuid"
+import { currentItem } from "@/lib/helpers"
+import { MenuType } from "@/lib/enums"
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const dispatch = useAppDispatch()
 
   const { activeMenu } = useAppSelector(getApp)
+  const { activeFolderId } = useAppSelector(getNotes)
   const folders = useAppSelector(selectAllFolder)
   const notes = useAppSelector(selectAllNotes)
   const { setOpen } = useSidebar()
 
-  const initialNewNotes : NoteItem = {
+  const initialNewNotes: NoteItem = {
     id: v4(),
     title: "",
     content: "",
-    lastUpdated: "",
-    trash: true,
-    favorite: true,
+    lastUpdated: currentItem,
+    trash: false,
+    favorite: false,
     user: {
-        id: v4(),
-        fullName: "",
-        username: "",
-        role: "owner"
-      },
-    folderId: "",
+      id: v4(),
+      fullName: "",
+      username: "",
+      role: "owner"
+    },
+    folderId: activeFolderId || "",
     isPublic: false,
   }
 
   const handleNewNote = async () => {
-    const newNote = { ...initialNewNotes, id: v4() };
-    await dispatch(createNewNote(newNote as unknown as NoteItem))
+    try {
+      const newNote = { ...initialNewNotes, id: v4() };
+      await dispatch(createNewNote(newNote as unknown as NoteItem))
+      dispatch(setActiveNoteId(newNote.id))
+    } catch (error) {
+      console.log("Error creating new note:" + error)
+    }
   }
 
   return (
@@ -132,21 +140,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div className="text-base font-medium text-foreground">
               {activeMenu}
             </div>
-            <SidebarMenuButton 
-            onClick={handleNewNote}
-            tooltip={{
-              children: LabelText.CREATE_NEW_NOTE,
-              hidden: false,
-            }} className="w-max">
-              <Plus />
-            </SidebarMenuButton>
+            {activeMenu === MenuType.TRASH ? (
+              <SidebarMenuButton
+                tooltip={{
+                  children: LabelText.EMPTY_TRASH,
+                  hidden: false,
+                }} className="w-max">
+                <Trash />
+              </SidebarMenuButton>
+            ) : (
+              <SidebarMenuButton
+                onClick={handleNewNote}
+                tooltip={{
+                  children: LabelText.CREATE_NEW_NOTE,
+                  hidden: false,
+                }} className="w-max">
+                <Plus />
+              </SidebarMenuButton>
+            )}
           </div>
           <SidebarInput placeholder="Type to search..." />
         </SidebarHeader>
         <SidebarContent>
-            <SidebarMenu>
-              <NoteItems notes={notes} />
-            </SidebarMenu>
+          <SidebarMenu>
+            <NoteItems notes={notes} />
+          </SidebarMenu>
         </SidebarContent>
       </Sidebar>
     </Sidebar>

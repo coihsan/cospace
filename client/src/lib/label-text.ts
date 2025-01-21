@@ -32,6 +32,7 @@ export enum LabelText {
     TRASH = 'Trash',
     SETTINGS = 'Settings',
     DELETE = 'Delete',
+    EMPTY_TRASH = 'Empty Trash',
     DELETE_PERMANENTLY = 'Delete permanently',
 
     // BACKUP
