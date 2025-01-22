@@ -1,5 +1,5 @@
 import { FolderItem, FolderState, NoteItem, RootState } from "@/lib/types";
-import { createSlice, createEntityAdapter, Update, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, createEntityAdapter, Update } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "../thunk";
 import { dexie } from "@/lib/db/dexie";
 
@@ -12,15 +12,11 @@ export const folderAdapter = createEntityAdapter<FolderItem>({
 });
 
 export const initialState: FolderState = folderAdapter.getInitialState({
-    editingFolderId: {
-        id: "",
-        name: ""
-    },
+    editingFolderId: "",
     loading: false,
     status: "idle",
     error: null,
     ids: [],
-    isVisible: false
 })
 
 export const fetchAllFolder = createAppAsyncThunk<FolderItem[]>(
@@ -109,9 +105,6 @@ const folderSlice = createSlice({
         setEditingFolder: (state, action) => {
             state.editingFolderId = action.payload
         },
-        setFolderVisibility: (state, action : PayloadAction<boolean>) => {
-            state.isVisible = action.payload
-        }
     },
     extraReducers(builder) {
         builder
@@ -143,7 +136,7 @@ const folderSlice = createSlice({
     },
 })
 
-export const { setEditingFolder, setFolderVisibility } = folderSlice.actions
+export const { setEditingFolder } = folderSlice.actions
 export default folderSlice.reducer
 
 export const {

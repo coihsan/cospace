@@ -98,14 +98,10 @@ export interface NoteState extends EntityState<NoteItem, string> {
 }
 
 export interface FolderState extends EntityState<FolderItem, string> {
-    editingFolderId: {
-        id: string;
-        name: string;
-    }
+    editingFolderId: string;
     loading: boolean;
     status: Status;
     error: null;
-    isVisible: boolean;
 }
 
 export interface AppState {

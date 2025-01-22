@@ -1,4 +1,4 @@
-import { SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
+import { SidebarMenuItem } from "@/components/ui/sidebar"
 import { Badge } from "@/components/ui/badge"
 import { NoteItem } from "@/lib/types"
 import React from "react"
@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
 import { getApp, getNotes } from "@/lib/redux/selector"
 import { MenuType } from "@/lib/enums"
-import { selectAllFolder } from "@/lib/redux/slice/folder.slice"
 import { setActiveNoteId } from "@/lib/redux/slice/notes.slice"
 import NoteOptios from "./note-options"
 
@@ -18,18 +17,14 @@ interface NoteItemProps {
 
 const NoteItems: React.FC<NoteItemProps> = ({ notes, ...props }) => {
     const navigate = useNavigate()
-    const { isMobile } = useSidebar()
-    const { activeNoteId } = useAppSelector(getNotes)
+    const { activeNoteId, activeFolderId } = useAppSelector(getNotes)
     const { activeMenu } = useAppSelector(getApp);
-    const folder = useAppSelector(selectAllFolder)
     const dispatch = useAppDispatch()
 
     const allNotes = notes.filter((item) => item && !item.trash)
     const favorites = notes.filter((item) => item.favorite === true && item.trash === false)
     const trash = notes.filter((item) => item.trash === true)
-    const notesInFolder = notes.filter((item) => item.folderId !== null)
-
-    // const findFolderId = folder.filter((item) => item.id === notesInFolder[0].folderId)
+    const notesInFolder = notes.filter((item) => item.folderId === activeFolderId)
 
     const handleActiveNote = (noteId: string) => {
         dispatch(setActiveNoteId(noteId))
@@ -49,6 +44,7 @@ const NoteItems: React.FC<NoteItemProps> = ({ notes, ...props }) => {
     } else {
         renderedNotes = allNotes;
     }
+    
     return (
         <>
             {renderedNotes.map((item) => (

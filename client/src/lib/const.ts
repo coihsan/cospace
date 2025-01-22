@@ -24,15 +24,6 @@ export const navMain = [
     }
 ]
 
-export const footerMain = [
-    {
-        title: MenuType.SETTINGS,
-        url: "/",
-        icon: Settings,
-        isActive: false,
-    },
-]
-
 interface TextEditorMenuBarProps {
     icon: any;
     onClick: () => void;

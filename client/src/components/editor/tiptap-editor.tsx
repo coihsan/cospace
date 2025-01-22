@@ -20,14 +20,14 @@ import { NotePermission } from '@/lib/types'
 
 interface EditorProps {
     initialContent: Content;
-    titleContent: string;
+    initialTitle: string;
     titleChange: ChangeEventHandler<HTMLInputElement>;
     onChange: (content: Content) => void;
     noteId: string;
     permission: NotePermission;
 }
 
-const TiptapEditor: React.FC<EditorProps> = ({ initialContent, titleContent, titleChange, onChange, noteId, permission }) => {
+const TiptapEditor: React.FC<EditorProps> = ({ initialContent, initialTitle, titleChange, onChange, noteId, permission }) => {
     // const { ydoc, provider } = useYjsProviders(noteId);
     const getRandomColor = () => getRandomElement(colorsCursor)
     const getRandomName = () => getRandomElement(names)
@@ -59,9 +59,10 @@ const TiptapEditor: React.FC<EditorProps> = ({ initialContent, titleContent, tit
         ],
     editable: permission.permission === 'canEdit' || 'owner' ? true : false,
     autofocus: true,
-    content: initialContent,
+    content: initialContent || '',
     onUpdate: ({ editor }) => {
-        onChange(editor.getHTML())
+        const editorContent = editor.getHTML();
+        onChange(editorContent)
     },
     onCreate: ({ editor }) => {
         editor.isEmpty
@@ -77,10 +78,12 @@ const TiptapEditor: React.FC<EditorProps> = ({ initialContent, titleContent, tit
 })
 
 useEffect(() => {
-    if (editor && initialContent) {
+    if (editor && initialContent && initialTitle) {
         editor.commands.setContent(initialContent);
+    } else {
+        editor?.commands.clearContent()
     }
-}, [noteId, initialContent, editor]);
+}, [initialContent, editor, initialTitle]);
 
 return (
     <div>
@@ -92,7 +95,7 @@ return (
                 <div className='bg-white min-h-[30cm] border border-border dark:bg-zinc-950 p-4 md:p-12'>
                     <input
                         type="text"
-                        defaultValue={titleContent}
+                        defaultValue={initialTitle}
                         onChange={(e) => titleChange(e)}
                         placeholder="Title it's here"
                         className="text-2xl bg-transparent border-none outline-none w-full"

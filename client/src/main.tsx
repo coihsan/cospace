@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './containers/App.tsx'
-import { BrowserRouter, Routes, Route, Outlet } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 import { Provider } from 'react-redux'
 import { store } from './lib/redux/store.ts';
 import LandingPage from './routes/landing-page.tsx';

@@ -14,11 +14,10 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
   useSidebar,
-  SidebarMenuAction
 } from "@/components/ui/sidebar"
 import { navMain } from "@/lib/const"
 import { LabelText } from "@/lib/label-text"
-import FolderSidebar from "./folder-sidebar"
+import FolderItems from "../folders/folder-items"
 import UserButton from "./user-button"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
 import { getApp, getNotes } from "@/lib/redux/selector"
@@ -34,28 +33,40 @@ import { MenuType } from "@/lib/enums"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const dispatch = useAppDispatch()
+  const { setOpen } = useSidebar()
 
   const { activeMenu } = useAppSelector(getApp)
   const { activeFolderId } = useAppSelector(getNotes)
   const folders = useAppSelector(selectAllFolder)
   const notes = useAppSelector(selectAllNotes)
-  const { setOpen } = useSidebar()
+
+  const getFolderName = (folderId: string) => {
+    const folder = folders.find((folder) => folder.id === folderId)
+    return folder ? folder.name : ""
+  }
 
   const initialNewNotes: NoteItem = {
     id: v4(),
-    title: "",
-    content: "",
+    title: "title 3",
+    content: "content 3",
     lastUpdated: currentItem,
     trash: false,
     favorite: false,
+    tagsId: "",
     user: {
       id: v4(),
-      fullName: "",
-      username: "",
+      fullName: "Achonk",
+      username: "coihsan",
       role: "owner"
     },
     folderId: activeFolderId || "",
     isPublic: false,
+    version: [],
+    syncStatus: "pending",
+    collaborators: [],
+    roomId: "",
+    ownerId: "",
+    syncedAt: new Date(),
   }
 
   const handleNewNote = async () => {
@@ -122,7 +133,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroupContent>
           </SidebarGroup>
           <SidebarSeparator />
-          <FolderSidebar folder={folders} />
+          <FolderItems folder={folders} />
         </SidebarContent>
         <SidebarFooter>
           <UserButton user={{
@@ -138,7 +149,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-base font-medium text-foreground">
-              {activeMenu}
+              {activeMenu === MenuType.FOLDER ? (
+                <div>{getFolderName(activeFolderId)}</div>
+              ) : (
+                activeMenu
+              )}
             </div>
             {activeMenu === MenuType.TRASH ? (
               <SidebarMenuButton

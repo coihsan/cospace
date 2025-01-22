@@ -1,10 +1,24 @@
 import React from "react"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { 
+    DropdownMenu, 
+    DropdownMenuTrigger, 
+    DropdownMenuContent, 
+    DropdownMenuSub, 
+    DropdownMenuSubTrigger, 
+    DropdownMenuPortal, 
+    DropdownMenuSubContent, 
+    DropdownMenuItem, 
+    DropdownMenuSeparator 
+} from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, CornerUpRight, Folder, StarOff, Link, Trash2, Star } from "lucide-react"
 import { SidebarMenuAction, useSidebar } from "../ui/sidebar"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
 import {  selectAllFolder } from "@/lib/redux/slice/folder.slice"
-import { moveNoteToTrash, selectNoteById, toggleNoteFavorite } from "@/lib/redux/slice/notes.slice"
+import { 
+    moveNoteToTrash, 
+    selectNoteById, 
+    toggleNoteFavorite 
+} from "@/lib/redux/slice/notes.slice"
 
 interface NoteOptiosProps {
     noteId: string | undefined

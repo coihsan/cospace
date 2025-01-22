@@ -1,7 +1,7 @@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, Pencil, Forward, Trash2 } from "lucide-react"
 import { SidebarMenuAction, useSidebar } from "../ui/sidebar"
-import { removeFolder } from "@/lib/redux/slice/folder.slice"
+import { removeFolder, setEditingFolder } from "@/lib/redux/slice/folder.slice"
 import { useAppDispatch } from "@/lib/redux/store"
 
 type FolderOptionsProps = {
@@ -12,7 +12,8 @@ const FolderOptions: React.FC<FolderOptionsProps> = ({ folderId }) => {
     const { isMobile } = useSidebar()
     const dispatch = useAppDispatch()
 
-    const handleDeleteFolderId = (folderId: string) => { dispatch(removeFolder({ folderId })) }
+    const handleDeleteFolderId = (folderId: string) => {dispatch(removeFolder({ folderId }))}
+    const handleRenameFolderId = (folderId: string) => {dispatch(setEditingFolder(folderId))}
 
     return (
         <DropdownMenu>
@@ -27,7 +28,7 @@ const FolderOptions: React.FC<FolderOptionsProps> = ({ folderId }) => {
                 side={isMobile ? "bottom" : "right"}
                 align={isMobile ? "end" : "start"}
             >
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleRenameFolderId(folderId)}>
                     <Pencil className="text-muted-foreground" />
                     <span>Rename Folder</span>
                 </DropdownMenuItem>
