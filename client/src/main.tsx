@@ -14,7 +14,6 @@ import { fetchAllNotes } from './lib/redux/slice/notes.slice.ts';
 
 store.dispatch(fetchAllFolder())
 store.dispatch(fetchAllNotes())
-console.log(store.getState())
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

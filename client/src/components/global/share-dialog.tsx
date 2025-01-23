@@ -3,16 +3,13 @@ import { Input } from "@/components/ui/input"
 import { Copy, Lock } from "lucide-react"
 import React from "react"
 import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
 import ModalCustom from "./modal-custom"
 
 interface ShareDialogProps {
-    params: {
-        noteId: string
-    },
+    noteId: string
 }
 
-const ShareDialog: React.FC = () => {
+const ShareDialog: React.FC<ShareDialogProps> = ({ noteId }) => {
 
     return (
         <ModalCustom
@@ -31,7 +28,7 @@ const ShareDialog: React.FC = () => {
                     </Label>
                     <Input
                         id="link"
-                        defaultValue="https://ui.shadcn.com/docs/installation"
+                        defaultValue={`https://cospace.dev/app/${noteId}`}
                         readOnly
                     />
                 </div>

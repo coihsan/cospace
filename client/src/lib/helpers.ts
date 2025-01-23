@@ -3,7 +3,6 @@ import { LabelText } from "./label-text"
 import { useEffect, useRef, useState, useTransition } from "react"
 import { format } from "date-fns";
 
-
 export const currentItem = format(new Date(), 'dd-MM-yyyy');
 
 export const getNotesTitle = (title: Content): string => {

@@ -25,7 +25,7 @@ const HeaderEditor = () => {
         <p>{getNotesTitle(noteTitle)}</p>
       </div>
       <div className="flex items-center gap-1 w-max">
-        <ShareDialog />
+        <ShareDialog noteId={activeNoteId} />
         <ButtonAction size={'icon'} tooltip={LabelText.ADD_FAVORITES} variant={"outline"}>
           <Star />
         </ButtonAction>

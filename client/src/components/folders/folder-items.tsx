@@ -1,5 +1,5 @@
 import React, { FormEvent, FormEventHandler, useRef, useTransition } from "react"
-import { ChevronDown, Plus } from "lucide-react"
+import { ChevronDown, FolderOpen, Plus } from "lucide-react"
 import { SidebarGroup, SidebarGroupAction, SidebarGroupLabel } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
 import { FolderItem } from "@/lib/types"
@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "../ui/input"
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, useSidebar } from "../ui/sidebar"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
-import { getFolder } from "@/lib/redux/selector"
+import { getApp, getFolder, getNotes } from "@/lib/redux/selector"
 import { setActiveFolderId } from "@/lib/redux/slice/notes.slice"
 import { currentItem } from "@/lib/helpers"
-import { createNewFolder, renameFolder } from "@/lib/redux/slice/folder.slice"
+import { createNewFolder, renameFolder, setEditingFolder } from "@/lib/redux/slice/folder.slice"
 import { v4 } from "uuid"
 import { setActiveMenu } from "@/lib/redux/slice/app.slice"
 import { MenuType } from "@/lib/enums"
@@ -37,6 +37,8 @@ const FolderItems: React.FC<FolderItemsProps> = ({ folder }) => {
     const [, startTransition] = useTransition()
 
     const { editingFolderId } = useAppSelector(getFolder)
+    const { activeFolderId } = useAppSelector(getNotes)
+    const { activeMenu } = useAppSelector(getApp)
 
     // ACTION
     const handleActiveFolderId = (folderId: string) => {
@@ -94,7 +96,10 @@ const FolderItems: React.FC<FolderItemsProps> = ({ folder }) => {
                         {folder.slice(0, 10).map((item) => (
                             <SidebarMenuItem key={item.name}>
                                 {editingFolderId === item.id ? (
-                                    <form onSubmit={(event: FormEvent) => event.preventDefault()}>
+                                    <form onSubmit={(event: FormEvent) => {
+                                        event.preventDefault()
+                                        dispatch(setEditingFolder(null))
+                                    }}>
                                         <Input
                                             aria-label="folder name"
                                             type="text"
@@ -110,9 +115,16 @@ const FolderItems: React.FC<FolderItemsProps> = ({ folder }) => {
                                     </form>
                                 ) : (
                                     <>
-                                        <SidebarMenuButton onClick={() => handleActiveFolderId(item.id)}>
+                                        <SidebarMenuButton
+                                            isActive={activeMenu === MenuType.FOLDER && activeFolderId === item.id}
+                                            onClick={() => handleActiveFolderId(item.id)}
+                                        >
                                             <div className='flex items-center gap-3' key={item.id}>
-                                                <Folder className='size-4 text-muted-foreground' />
+                                                {activeFolderId === item.id ? (
+                                                    <FolderOpen className='size-4 brandTextColor' />
+                                                ) : (
+                                                    <Folder className='size-4 text-muted-foreground' />
+                                                )}
                                                 <span>{item.name}</span>
                                             </div>
                                         </SidebarMenuButton>

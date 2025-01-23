@@ -40,6 +40,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const folders = useAppSelector(selectAllFolder)
   const notes = useAppSelector(selectAllNotes)
 
+  const noteLengthInTrash = notes.filter((item) => item.trash === true)
+
   const getFolderName = (folderId: string) => {
     const folder = folders.find((folder) => folder.id === folderId)
     return folder ? folder.name : ""
@@ -47,11 +49,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const initialNewNotes: NoteItem = {
     id: v4(),
-    title: "title 3",
-    content: "content 3",
+    title: "Lorem Ipsum Dolor Sit Amet",
+    content: "Bla bla bla bla",
     lastUpdated: currentItem,
     trash: false,
-    favorite: false,
+    favorite: true,
     tagsId: "",
     user: {
       id: v4(),
@@ -59,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       username: "coihsan",
       role: "owner"
     },
-    folderId: activeFolderId || "",
+    folderId: activeMenu === MenuType.FOLDER ? activeFolderId : "",
     isPublic: false,
     version: [],
     syncStatus: "pending",

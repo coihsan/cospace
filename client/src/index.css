@@ -147,7 +147,9 @@
   body {
     @apply bg-background text-foreground;
   }
-  
+  .brandTextColor { 
+    @apply text-cyan-600 dark:text-cyan-500
+  }
 }
 
 .tiptap p.is-editor-empty:first-child::before {

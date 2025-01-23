@@ -46,7 +46,7 @@ export const getActiveNoteId = createAppAsyncThunk(
   }
 )
 
-export const moveNoteToTrash = createAppAsyncThunk<Update<NoteItem, string>, { noteId: string; value: boolean }>(
+export const toggleNoteTrash = createAppAsyncThunk<Update<NoteItem, string>, { noteId: string; value: boolean }>(
   'notes/deleteNotes',
   async (data, { rejectWithValue }) => {
     try {
@@ -173,7 +173,7 @@ const noteSlice = createSlice({
       .addCase(getActiveNoteId.fulfilled, (state, action) => {
         state.activeNoteId = action.payload as string;
       })
-      .addCase(moveNoteToTrash.fulfilled, (state, action) => {
+      .addCase(toggleNoteTrash.fulfilled, (state, action) => {
         state.status = 'success',
           notesAdapter.updateOne(state, action.payload)
       })

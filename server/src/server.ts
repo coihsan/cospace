@@ -11,10 +11,6 @@ const PORT = 5173;
 app.use(clerkMiddleware());
 app.use(cors())
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 app.listen(PORT, () => {
   console.log(`cospace app listening at http://localhost:${PORT}`);
 });
