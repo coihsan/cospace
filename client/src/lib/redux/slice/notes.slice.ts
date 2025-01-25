@@ -82,13 +82,19 @@ export const updateTitleNotes = createAppAsyncThunk<Update<NoteItem, string>, { 
   'notes/updateTitle',
   async (data, { rejectWithValue }) => {
     try {
-      const updates: Partial<NoteItem> = { title: data.title }
-      if (data.noteId) {
-        updates.title = data.title
+      const existingNote = await dexie.notes.get(data.noteId);
+      if (existingNote) {
+        const updates: Partial<NoteItem> = {
+          content: data.title,
+          lastUpdated: currentItem,
+        };
+        await dexie.notes.update(data.noteId, updates);
+        return { id: data.noteId, changes: updates };
+      } else {
+        return rejectWithValue('update title Note not found');
       }
-      await dexie.notes.update(data.noteId, updates)
-      return { id: data.noteId, changes: updates }
     } catch (error) {
+      console.error('Failed to update note title', error);
       return rejectWithValue(error as string);
     }
   }
@@ -115,6 +121,41 @@ export const updateSelectedNotes = createAppAsyncThunk<Update<NoteItem, string>,
     }
   }
 );
+
+export const EmptyTrashNote = createAppAsyncThunk<string[], void, { rejectValue: string }>(
+  'note/deleteEmpty',
+  async (_, { rejectWithValue }) => {
+    try {
+      const allNotes = await dexie.notes.toArray();
+      const notesToDelete = allNotes.filter(note => note.trash);
+      const noteIdsToDelete = notesToDelete.map(note => note.id);
+      await dexie.notes.bulkDelete(noteIdsToDelete);
+      return noteIdsToDelete;
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);
+
+export const deleteNotePermanently = createAppAsyncThunk<Update<NoteItem, string>, { noteId: string }, { rejectValue: string }>(
+  'notes/deletePermanently',
+  async (data, { rejectWithValue }) => {
+    try {
+      const notes = await dexie.notes.toArray();
+      const notesToDelete = notes.find(note => note.id === data.noteId);
+
+      if (notesToDelete) {
+        const ids = notesToDelete.id;
+        await dexie.notes.delete(ids);
+        return { id: ids, changes: {} };
+      } else {
+        return rejectWithValue('deletePermanentAction Note not found');
+      }
+    } catch (error) {
+      return rejectWithValue(error as string);
+    }
+  }
+)
 
 export const initialState: NoteState = notesAdapter.getInitialState({
   editable: false,
@@ -151,10 +192,6 @@ const noteSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
-    addNote: (state, action: PayloadAction<NoteItem>) => {
-      state.activeNoteId = action.payload.id;
-      notesAdapter.addOne(state, action.payload);
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -189,6 +226,15 @@ const noteSlice = createSlice({
         notesAdapter.updateOne(state, action.payload),
           state.status = 'success'
       })
+      .addCase(EmptyTrashNote.fulfilled, (state, action) => {
+        notesAdapter.removeMany(state, action.payload),
+          state.status = 'success'
+      })
+      .addCase(deleteNotePermanently.fulfilled, (state, action) => {
+        notesAdapter.removeOne(state, action.payload.id),
+        state.status = "success",
+        state.loading = true
+      })
   },
 })
 
@@ -198,7 +244,6 @@ export const {
   setActiveFolderId,
   setSelectedNotesIds,
   setSearchValue,
-  addNote
 } = noteSlice.actions;
 export default noteSlice.reducer;
 

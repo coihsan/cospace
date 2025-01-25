@@ -15,7 +15,7 @@ const HeaderEditor = () => {
   const { activeNoteId } = useAppSelector(getNotes)
   const notes = useAppSelector(selectAllNotes)
   const activeNote = notes.find((note) => note.id === activeNoteId)
-  const noteTitle = activeNote ? activeNote.title : '';
+  const noteTitle = activeNote ? activeNote.title : LabelText.CREATE_NEW_NOTE;
 
   return (
     <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-2 z-50 flex items-center justify-between">

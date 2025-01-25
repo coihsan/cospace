@@ -7,7 +7,7 @@ export const initialState : AppState = {
     loading: false,
     status: "idle",
     error: null,
-    activeMenu: MenuType.NOTES
+    activeMenu: MenuType.NOTES,
 }
 
 const appSlice = createSlice({

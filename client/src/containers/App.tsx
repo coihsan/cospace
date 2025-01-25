@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import ModalProvider from "@/providers/modal-provider"
@@ -17,14 +17,17 @@ const App = () => {
   const { activeNoteId } = useAppSelector(getNotes)
   const notes = useAppSelector((state) => selectNoteById(state, activeNoteId))
 
-  const handleUpdateContent = debounceEvent((noteId: string, content: Content) => {
-    if (noteId) {
-      dispatch(updateSelectedNotes({ noteId, content }))
-    }}, 500)
-  const handleUpdateTitle = debounceEvent((noteId: string, title: string) => {
-    if (noteId) {
-      dispatch(updateTitleNotes({ noteId, title }))
-    }}, 500)
+  const handleUpdateContent = debounceEvent((content: Content) => {
+    if (activeNoteId) {
+      dispatch(updateSelectedNotes({ noteId: activeNoteId, content }))
+    }
+  }, 500)
+
+  const handleUpdateTitle = debounceEvent((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (activeNoteId) {
+      dispatch(updateTitleNotes({ noteId: activeNoteId, title: e.target.value }))
+    }
+  }, 500)
 
   return (
     <ThemeProvider>
@@ -35,15 +38,15 @@ const App = () => {
             <main className="h-full">
               {activeNoteId ? (
                 <TiptapEditor
-                initialContent={notes.content}
-                initialTitle={notes.title}
-                titleChange={() => handleUpdateTitle(activeNoteId, notes.title)}
-                onChange={() => handleUpdateContent(activeNoteId, notes.content as string)}
-                noteId={activeNoteId}
-                permission={{
-                  userId: ``,
-                  permission: 'owner'
-                }} />
+                  initialContent={notes.content}
+                  initialTitle={notes.title}
+                  onTitleChange={handleUpdateTitle}
+                  onChange={handleUpdateContent}
+                  noteId={activeNoteId}
+                  permission={{
+                    userId: ``,
+                    permission: 'owner'
+                  }} />
               ) : (
                 <EmptyEditor />
               )}

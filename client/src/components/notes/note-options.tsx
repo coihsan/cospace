@@ -14,7 +14,7 @@ import { MoreHorizontal, CornerUpRight, Folder, StarOff, Link, Trash2, Star, Cor
 import { SidebarMenuAction, useSidebar } from "../ui/sidebar"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
 import { selectAllFolder } from "@/lib/redux/slice/folder.slice"
-import { toggleNoteTrash, selectAllNotes, toggleNoteFavorite } from "@/lib/redux/slice/notes.slice"
+import { toggleNoteTrash, selectAllNotes, toggleNoteFavorite, deleteNotePermanently } from "@/lib/redux/slice/notes.slice"
 import { getApp } from "@/lib/redux/selector"
 import { MenuType } from "@/lib/enums"
 
@@ -23,19 +23,24 @@ interface NoteOptiosProps {
 }
 
 const NoteOptios: React.FC<NoteOptiosProps> = ({ noteId }) => {
+
     const { isMobile } = useSidebar()
     const dispatch = useAppDispatch()
 
     const { activeMenu } = useAppSelector(getApp)
     const folders = useAppSelector(selectAllFolder)
     const notes = useAppSelector(selectAllNotes)
-    const favorites = notes.find((item) => item.favorite === true)
+    const currentNote = notes.find((note) => note.id === noteId);
+    const favorites = currentNote?.favorite || false;
 
     const handleToggleNoteTrash = (noteId: string, value: boolean) => {
         dispatch(toggleNoteTrash({ noteId, value }))
     }
     const handleToggleFavorite = (noteId: string, value: boolean) => {
         dispatch(toggleNoteFavorite({ noteId, value }))
+    }
+    const handleDeleteNotePermanent = (noteId: string) => {
+        dispatch(deleteNotePermanently({ noteId }))
     }
 
     return (
@@ -101,7 +106,7 @@ const NoteOptios: React.FC<NoteOptiosProps> = ({ noteId }) => {
                             <span>Restore from trash</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600 dark:text-red-500">
+                        <DropdownMenuItem onClick={() => handleDeleteNotePermanent(noteId as string)} className="text-red-600 dark:text-red-500">
                             <Trash2 />
                             <span>Delete permanent</span>
                         </DropdownMenuItem>

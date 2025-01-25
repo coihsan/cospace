@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, ChangeEventHandler } from 'react'
+import React, { useCallback, useEffect, useState, ChangeEventHandler, ChangeEvent, useRef, ReactNode } from 'react'
 import { useEditor, EditorContent, Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Color } from '@tiptap/extension-color'
@@ -17,21 +17,21 @@ import { useYjsProviders } from '@/hooks/use-yjs-provider'
 import { getRandomElement } from '@/lib/helpers'
 import { colorsCursor, names } from '@/lib/const'
 import { NotePermission } from '@/lib/types'
+import { Input } from '../ui/input'
 
 interface EditorProps {
     initialContent: Content;
     initialTitle: string;
-    titleChange: ChangeEventHandler<HTMLInputElement>;
+    onTitleChange: ChangeEventHandler<HTMLInputElement>;
     onChange: (content: Content) => void;
     noteId: string;
     permission: NotePermission;
 }
 
-const TiptapEditor: React.FC<EditorProps> = ({ initialContent, initialTitle, titleChange, onChange, noteId, permission }) => {
+const TiptapEditor: React.FC<EditorProps> = ({ initialContent, initialTitle, onTitleChange, onChange, noteId, permission }) => {
     // const { ydoc, provider } = useYjsProviders(noteId);
-    const getRandomColor = () => getRandomElement(colorsCursor)
-    const getRandomName = () => getRandomElement(names)
-
+    // const getRandomColor = () => getRandomElement(colorsCursor)
+    // const getRandomName = () => getRandomElement(names)
 
     const editor = useEditor({
         extensions: [
@@ -52,63 +52,70 @@ const TiptapEditor: React.FC<EditorProps> = ({ initialContent, initialTitle, tit
             // CollaborationCursor.configure({
             //     provider,
             //     user: {
-            //         name: 'Cyndi Lauper',
-            //         color: '#f783ac',
+            //         name: getRandomName,
+            //         color: getRandomColor,
             //     },
             // }),
         ],
-    editable: permission.permission === 'canEdit' || 'owner' ? true : false,
-    autofocus: true,
-    content: initialContent || '',
-    onUpdate: ({ editor }) => {
-        const editorContent = editor.getHTML();
-        onChange(editorContent)
-    },
-    onCreate: ({ editor }) => {
-        editor.isEmpty
-    },
-    editorProps: {
-        attributes: {
-            autocomplete: 'off',
-            autocorrect: 'off',
-            autocapitalize: 'off',
-            class: "prose prose-sm max-w-none outline-none border-none"
+        editable: permission.permission === 'canEdit' || 'owner' ? true : false,
+        autofocus: true,
+        content: initialContent ? initialContent : '',
+        onUpdate: ({ editor }) => {
+            const editorContent = editor.getHTML();
+            onChange(editorContent)
+        },
+        onCreate: ({ editor }) => {
+            editor.isEmpty
+        },
+        editorProps: {
+            attributes: {
+                autocomplete: 'off',
+                autocorrect: 'off',
+                autocapitalize: 'off',
+                class: "prose prose-sm max-w-none outline-none border-none"
+            }
         }
-    }
-})
+    })
 
-useEffect(() => {
-    if (editor && initialContent && initialTitle) {
-        editor.commands.setContent(initialContent);
-    } else {
-        editor?.commands.clearContent()
-    }
-}, [initialContent, editor, initialTitle]);
+    useEffect(() => {
+        if (editor && initialContent) {
+            editor.commands.setContent(initialContent);
+        } else {
+            editor?.commands.clearContent()
+        }
+    }, [initialContent, editor]);
 
-return (
-    <div>
-        <HeaderEditor />
-        <div>
-            <MenuToolbar editor={editor} />
-            <BubbleMenuToolbar editor={editor} />
-            <div className='max-w-screen-lg w-full h-full mx-auto pt-12 md:pt-16 md:pb-12'>
-                <div className='bg-white min-h-[30cm] border border-border dark:bg-zinc-950 p-4 md:p-12'>
-                    <input
-                        type="text"
-                        defaultValue={initialTitle}
-                        onChange={(e) => titleChange(e)}
-                        placeholder="Title it's here"
-                        className="text-2xl bg-transparent border-none outline-none w-full"
-                    />
-                    <Separator className='my-6' />
-                    <ScrollArea className='h-full'>
-                        <EditorContent editor={editor} />
-                    </ScrollArea>
+    // useEffect(() => {
+    //     return () => {
+    //         provider.destroy();
+    //         ydoc.destroy();
+    //     }
+    // }, [noteId])
+
+    return (
+        <>
+            <HeaderEditor />
+            <div>
+                <MenuToolbar editor={editor} />
+                <BubbleMenuToolbar editor={editor} />
+                <div className='max-w-screen-lg w-full h-full mx-auto pt-12 md:pt-16 md:pb-12'>
+                    <div className='bg-white min-h-[30cm] border border-border dark:bg-zinc-950 p-4 md:p-12'>
+                        <input
+                            type="text"
+                            value={initialTitle ? initialTitle : ''}
+                            onChange={(e) => onTitleChange(e)}
+                            placeholder="Title it's here"
+                            className="text-2xl bg-transparent border-none outline-none ring-0 w-full"
+                        />
+                        <Separator className='my-6' />
+                        <ScrollArea className='h-full'>
+                            <EditorContent editor={editor} />
+                        </ScrollArea>
+                    </div>
                 </div>
             </div>
-        </div>
-        <FooterEditor />
-    </div>
-)
+            <FooterEditor />
+        </>
+    )
 }
 export default TiptapEditor

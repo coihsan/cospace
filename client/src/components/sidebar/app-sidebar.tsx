@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useEffect, useRef } from "react"
 import { Command, Plus, Trash } from "lucide-react"
 import {
   Sidebar,
@@ -8,7 +8,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarInput,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -20,40 +19,36 @@ import { LabelText } from "@/lib/label-text"
 import FolderItems from "../folders/folder-items"
 import UserButton from "./user-button"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
-import { getApp, getNotes } from "@/lib/redux/selector"
+import { getApp, getNotes, selectFilteredNotes } from "@/lib/redux/selector"
 import { setActiveMenu } from "@/lib/redux/slice/app.slice"
 import { selectAllFolder } from "@/lib/redux/slice/folder.slice"
 import NoteItems from "../notes/note-item"
-import { createNewNote, selectAllNotes, setActiveNoteId } from "@/lib/redux/slice/notes.slice"
+import { EmptyTrashNote, createNewNote, selectAllNotes, setActiveNoteId, setSearchValue } from "@/lib/redux/slice/notes.slice"
 import { NoteItem } from "@/lib/types"
 import { v4 } from "uuid"
-import { currentItem } from "@/lib/helpers"
+import { currentItem, debounceEvent } from "@/lib/helpers"
 import { MenuType } from "@/lib/enums"
-
+import SearchBar from "../global/search-bar"
+import { useModal } from '@/providers/modal-provider';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const dispatch = useAppDispatch()
+  const searchRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const { setOpen } = useSidebar()
 
+  const dispatch = useAppDispatch()
+
   const { activeMenu } = useAppSelector(getApp)
-  const { activeFolderId } = useAppSelector(getNotes)
+  const { activeFolderId, searchValue } = useAppSelector(getNotes)
   const folders = useAppSelector(selectAllFolder)
   const notes = useAppSelector(selectAllNotes)
 
-  const noteLengthInTrash = notes.filter((item) => item.trash === true)
-
-  const getFolderName = (folderId: string) => {
-    const folder = folders.find((folder) => folder.id === folderId)
-    return folder ? folder.name : ""
-  }
-
   const initialNewNotes: NoteItem = {
     id: v4(),
-    title: "Lorem Ipsum Dolor Sit Amet",
-    content: "Bla bla bla bla",
+    title: "",
+    content: "",
     lastUpdated: currentItem,
     trash: false,
-    favorite: true,
+    favorite: false,
     tagsId: "",
     user: {
       id: v4(),
@@ -80,6 +75,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       console.log("Error creating new note:" + error)
     }
   }
+
+  const getFolderName = (folderId: string) => {
+    const folder = folders.find((folder) => folder.id === folderId)
+    return folder ? folder.name : ""
+  }
+
+  const handleEmptyTrash = () => {dispatch(EmptyTrashNote())}
+
+  const searchNotes = debounceEvent(() => {
+    (searchValue: string) => dispatch(setSearchValue(searchValue))
+  }, 50)
+
+  const allNotes = notes.filter((item) => item && !item.trash);
+  const favorites = notes.filter((item) => item.favorite === true && item.trash === false);
+  const trash = notes.filter((item) => item.trash === true);
+  const notesInFolder = notes.filter((item) => item.folderId === activeFolderId);
+
+  let renderedNotes: Array<NoteItem> = [];
+
+  if (activeMenu === MenuType.NOTES) {
+    renderedNotes = allNotes;
+  } else if (activeMenu === MenuType.FAVORITE) {
+    renderedNotes = favorites;
+  } else if (activeMenu === MenuType.TRASH) {
+    renderedNotes = trash;
+  } else if (activeMenu === MenuType.FOLDER) {
+    renderedNotes = notesInFolder;
+  } else {
+    renderedNotes = allNotes;
+  }
+
+  const filterNote = searchValue
+    ? renderedNotes.filter((note) =>
+      note.title.toLowerCase().includes(searchValue.toLowerCase()))
+    : renderedNotes;
+  renderedNotes = filterNote
 
   return (
     <Sidebar
@@ -159,6 +190,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </div>
             {activeMenu === MenuType.TRASH ? (
               <SidebarMenuButton
+                onClick={handleEmptyTrash}
+                variant={'outline'}
                 tooltip={{
                   children: LabelText.EMPTY_TRASH,
                   hidden: false,
@@ -167,6 +200,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
             ) : (
               <SidebarMenuButton
+                variant={'outline'}
                 onClick={handleNewNote}
                 tooltip={{
                   children: LabelText.CREATE_NEW_NOTE,
@@ -176,11 +210,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
             )}
           </div>
-          <SidebarInput placeholder="Type to search..." />
+          <SearchBar searchRef={searchRef} onSearchQueryChange={searchNotes} />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            <NoteItems notes={notes} />
+            <NoteItems notes={filterNote} />
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
