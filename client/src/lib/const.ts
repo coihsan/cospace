@@ -165,57 +165,6 @@ export const CodeFormatMenuBar = (editor: Editor): TextEditorMenuBarProps[] => [
     },
 ]
 
-// export const ColorStyle = (editor: Editor) => [
-//     {
-//         color: "#8B5CF6",
-//         onClick: () => editor.chain().focus().setColor('#8B5CF6').run(),
-//         className: editor.isActive('textStyle', { color: '#8B5CF6' }) ? 'is-active' : '',
-//         dataTestid: "setPurple"
-//     },
-//     {
-//         color: '#EF4444',
-//         onClick: () => editor.chain().focus().setColor('#EF4444').run(),
-//         className: editor.isActive('textStyle', { color: '#EF4444' }) ? 'is-active' : '',
-//         dataTestid: "setRed"
-//     },
-//     {
-//         color: '#F97316',
-//         onClick: () => editor.chain().focus().setColor('#F97316').run(),
-//         className: editor.isActive('textStyle', { color: '#F97316' }) ? 'is-active' : '',
-//         dataTestid: "setOrange"
-//     },
-//     {
-//         color: '#FAF594',
-//         onClick: () => editor.chain().focus().setColor('#FAF594').run(),
-//         className: editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : '',
-//         dataTestid: "setYellow"
-//     },
-//     {
-//         color: '#70CFF8',
-//         onClick: () => editor.chain().focus().setColor('#70CFF8').run(),
-//         className: editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : '',
-//         dataTestid: "setBlue"
-//     },
-//     {
-//         color: '#94FADB',
-//         onClick: () => editor.chain().focus().setColor('#94FADB').run(),
-//         className: editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : '',
-//         dataTestid: "setTeal"
-//     },
-//     {
-//         color: '#B9F18D',
-//         onClick: () => editor.chain().focus().setColor('#B9F18D').run(),
-//         className: editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : '',
-//         dataTestid: "setGreen"
-//     },
-//     {
-//         color: 'currentColor',
-//         onClick: () => editor.chain().focus().unsetColor().run(),
-//         className: editor.isActive('textStyle', { color: '' }) ? 'is-active' : '',
-//         dataTestid: "unsetColor"
-//     },
-// ]
-
 export const colorValue = [
     'currentColor',
     '#EF4444',

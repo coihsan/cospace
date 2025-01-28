@@ -162,7 +162,7 @@ export const initialState: NoteState = notesAdapter.getInitialState({
   activeNoteId: "",
   activeFolderId: "",
   selectedNotesIds: [],
-  loading: false,
+  loading: true,
   status: "idle",
   error: null,
   searchValue: "",

@@ -33,13 +33,13 @@ const NoteOptios: React.FC<NoteOptiosProps> = ({ noteId }) => {
     const currentNote = notes.find((note) => note.id === noteId);
     const favorites = currentNote?.favorite || false;
 
-    const handleToggleNoteTrash = (noteId: string, value: boolean) => {
+    const onToggleNoteTrash = (noteId: string, value: boolean) => {
         dispatch(toggleNoteTrash({ noteId, value }))
     }
-    const handleToggleFavorite = (noteId: string, value: boolean) => {
+    const onToggleFavorite = (noteId: string, value: boolean) => {
         dispatch(toggleNoteFavorite({ noteId, value }))
     }
-    const handleDeleteNotePermanent = (noteId: string) => {
+    const onDeleteNotePermanent = (noteId: string) => {
         dispatch(deleteNotePermanently({ noteId }))
     }
 
@@ -79,12 +79,12 @@ const NoteOptios: React.FC<NoteOptiosProps> = ({ noteId }) => {
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
                         {favorites ? (
-                            <DropdownMenuItem onClick={() => handleToggleFavorite(noteId as string, false)}>
+                            <DropdownMenuItem onClick={() => onToggleFavorite(noteId as string, false)}>
                                 <StarOff className="text-muted-foreground" />
                                 <span>Remove from Favorite</span>
                             </DropdownMenuItem>
                         ) : (
-                            <DropdownMenuItem onClick={() => handleToggleFavorite(noteId as string, true)}>
+                            <DropdownMenuItem onClick={() => onToggleFavorite(noteId as string, true)}>
                                 <Star className="text-muted-foreground" />
                                 <span>Mark as Favorite</span>
                             </DropdownMenuItem>
@@ -94,19 +94,19 @@ const NoteOptios: React.FC<NoteOptiosProps> = ({ noteId }) => {
                             <span>Copy Link</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleToggleNoteTrash(noteId as string, true)} className="text-red-600 dark:text-red-500">
+                        <DropdownMenuItem onClick={() => onToggleNoteTrash(noteId as string, true)} className="text-red-600 dark:text-red-500">
                             <Trash2 />
                             <span>Move to trash</span>
                         </DropdownMenuItem>
                     </>
                 ) : (
                     <>
-                        <DropdownMenuItem onClick={() => handleToggleNoteTrash(noteId as string, false)}>
+                        <DropdownMenuItem onClick={() => onToggleNoteTrash(noteId as string, false)}>
                             <CornerUpLeft className="text-muted-foreground" />
                             <span>Restore from trash</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleDeleteNotePermanent(noteId as string)} className="text-red-600 dark:text-red-500">
+                        <DropdownMenuItem onClick={() => onDeleteNotePermanent(noteId as string)} className="text-red-600 dark:text-red-500">
                             <Trash2 />
                             <span>Delete permanent</span>
                         </DropdownMenuItem>

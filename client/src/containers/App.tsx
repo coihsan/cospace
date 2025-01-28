@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import ModalProvider from "@/providers/modal-provider"
@@ -17,17 +17,35 @@ const App = () => {
   const { activeNoteId } = useAppSelector(getNotes)
   const notes = useAppSelector((state) => selectNoteById(state, activeNoteId))
 
-  const handleUpdateContent = debounceEvent((content: Content) => {
+  const onUpdateContent = debounceEvent((content: Content) => {
     if (activeNoteId) {
       dispatch(updateSelectedNotes({ noteId: activeNoteId, content }))
     }
   }, 500)
 
-  const handleUpdateTitle = debounceEvent((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUpdateTitle = debounceEvent((e: React.ChangeEvent<HTMLInputElement>,) => {
     if (activeNoteId) {
       dispatch(updateTitleNotes({ noteId: activeNoteId, title: e.target.value }))
     }
   }, 500)
+
+  const renderEditor = () => {
+    if (activeNoteId) {
+      return (
+        <TiptapEditor
+          initialContent={notes.content}
+          initialTitle={notes.title}
+          onChange={onUpdateContent}
+          noteId={activeNoteId}
+          permission={{
+            userId: ``,
+            permission: 'owner'
+          }} />
+      )
+    } else if(!activeNoteId || !notes.trash){
+      return <EmptyEditor />
+    }
+  }
 
   return (
     <ThemeProvider>
@@ -36,20 +54,7 @@ const App = () => {
           <AppSidebar />
           <SidebarInset>
             <main className="h-full">
-              {activeNoteId ? (
-                <TiptapEditor
-                  initialContent={notes.content}
-                  initialTitle={notes.title}
-                  onTitleChange={handleUpdateTitle}
-                  onChange={handleUpdateContent}
-                  noteId={activeNoteId}
-                  permission={{
-                    userId: ``,
-                    permission: 'owner'
-                  }} />
-              ) : (
-                <EmptyEditor />
-              )}
+              {renderEditor()}
             </main>
           </SidebarInset>
         </SidebarProvider>

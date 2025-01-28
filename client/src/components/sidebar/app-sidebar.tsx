@@ -19,7 +19,7 @@ import { LabelText } from "@/lib/label-text"
 import FolderItems from "../folders/folder-items"
 import UserButton from "./user-button"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store"
-import { getApp, getNotes, selectFilteredNotes } from "@/lib/redux/selector"
+import { getApp, getNotes } from "@/lib/redux/selector"
 import { setActiveMenu } from "@/lib/redux/slice/app.slice"
 import { selectAllFolder } from "@/lib/redux/slice/folder.slice"
 import NoteItems from "../notes/note-item"
@@ -30,10 +30,12 @@ import { currentItem, debounceEvent } from "@/lib/helpers"
 import { MenuType } from "@/lib/enums"
 import SearchBar from "../global/search-bar"
 import { useModal } from '@/providers/modal-provider';
+import { useNavigate } from "react-router"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const searchRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const { setOpen } = useSidebar()
+  const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
 
@@ -71,6 +73,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       const newNote = { ...initialNewNotes, id: v4() };
       await dispatch(createNewNote(newNote as unknown as NoteItem))
       dispatch(setActiveNoteId(newNote.id))
+      navigate(`/app/${newNote.id}`)
     } catch (error) {
       console.log("Error creating new note:" + error)
     }
@@ -130,7 +133,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     <Command className="size-4" />
                   </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
+                  <div className="grid flex-1 text-left text-lg font-bold italic leading-tight">
                     cospace
                   </div>
                 </a>
